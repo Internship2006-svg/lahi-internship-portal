@@ -1,3 +1,19 @@
+<nav class="student-nav">
+
+    <a href="index.html">
+        🏠 Home
+    </a>
+
+    <a href="journey.html">
+        🗺️ My Journey
+    </a>
+
+    <button onclick="history.back()">
+        ← Back
+    </button>
+
+</nav>
+
 const LAHI_PROGRESS = {
 
     get(key) {
