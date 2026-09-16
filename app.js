@@ -1,5 +1,3 @@
 function startJourney() {
-
-    alert("Welcome to your LAHI Internship Journey!");
-
+    window.location.href = "journey.html";
 }
