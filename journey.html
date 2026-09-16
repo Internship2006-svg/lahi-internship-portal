@@ -1,183 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>My Internship Journey | LAHI</title>
-
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Journey Map | LAHI</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+<div class="app-shell">
+<header class="topbar">
+  <a class="brand brand-link" href="index.html">LAHI <span>Internship Journey</span></a>
+  <div class="stats">
+    <div class="top-pill">⭐ <span id="xp">0</span> XP</div>
+    <div class="top-pill">🏆 <span id="badges">0</span> badges</div>
+  </div>
+</header>
 
-    <div class="journey-page">
+<main class="journey-wrap">
+  <section class="journey-header">
+    <div>
+      <div class="eyebrow">🗺️ YOUR MAP</div>
+      <h1>Choose your next mission</h1>
+      <p>Complete each stage and unlock the next part of your internship journey.</p>
+    </div>
+    <div class="progress-card">
+      <div class="progress-row"><span>Journey progress</span><b id="progressText">0%</b></div>
+      <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+    </div>
+  </section>
 
-        <header class="top-bar">
-            <div class="brand">LAHI</div>
+  <section class="map">
+    <a class="stage-card current" href="prepare.html" data-stage="1">
+      <div class="stage-number">01</div>
+      <div class="stage-icon">🛡️</div>
+      <div class="stage-copy"><span class="stage-tag">START HERE</span><h2>Prepare</h2><p>Understand your internship, talk to parents, confirm consent and learn safety basics.</p><b>Enter mission →</b></div>
+    </a>
 
-            <div class="progress">
-                <span>Journey Progress</span>
-                <strong>0%</strong>
-            </div>
-        </header>
+    <div class="connector"><span>↓</span></div>
 
-
-        <main>
-
-            <section class="hero">
-
-                <div class="hero-text">
-
-                    <span class="tag">🚀 MY INTERNSHIP JOURNEY</span>
-
-                    <h1>
-                        Your journey from
-                        <span>learning</span>
-                        to experience.
-                    </h1>
-
-                    <p>
-                        Explore your internship, learn new skills,
-                        reflect on your experiences and discover what
-                        you can do next.
-                    </p>
-
-                    <button class="primary-btn" onclick="beginJourney()">
-                        Let's Begin 🚀
-                    </button>
-
-                </div>
-
-
-                <div class="hero-illustration">
-
-                    <div class="circle circle-one"></div>
-                    <div class="circle circle-two"></div>
-
-                    <div class="student">
-                        🧑‍🎓
-                    </div>
-
-                    <div class="floating-card card-one">
-                        🎯 Goals
-                    </div>
-
-                    <div class="floating-card card-two">
-                        💡 Learn
-                    </div>
-
-                    <div class="floating-card card-three">
-                        🏆 Achieve
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <section class="journey-section">
-
-                <h2>Your Journey Map</h2>
-
-                <p class="section-intro">
-                    Complete each stage to move forward in your internship journey.
-                </p>
-
-
-                <div class="journey-map">
-
-                    <div class="journey-step active">
-
-                        <div class="step-icon">🛡️</div>
-
-                        <div>
-                            <h3>Prepare</h3>
-                            <p>Get ready for your internship.</p>
-                        </div>
-
-                    </div>
-
-
-                    <div class="journey-line"></div>
-
-
-                    <div class="journey-step locked">
-
-                        <div class="step-icon">👀</div>
-
-                        <div>
-                            <h3>Explore</h3>
-                            <p>Observe your workplace and learn.</p>
-                        </div>
-
-                    </div>
-
-
-                    <div class="journey-line"></div>
-
-
-                    <div class="journey-step locked">
-
-                        <div class="step-icon">🎯</div>
-
-                        <div>
-                            <h3>Set Goals</h3>
-                            <p>Decide what you want to learn.</p>
-                        </div>
-
-                    </div>
-
-
-                    <div class="journey-line"></div>
-
-
-                    <div class="journey-step locked">
-
-                        <div class="step-icon">💭</div>
-
-                        <div>
-                            <h3>Reflect</h3>
-                            <p>Think about what you experienced.</p>
-                        </div>
-
-                    </div>
-
-
-                    <div class="journey-line"></div>
-
-
-                    <div class="journey-step locked">
-
-                        <div class="step-icon">🏆</div>
-
-                        <div>
-                            <h3>Complete</h3>
-                            <p>Finish your internship journey.</p>
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </main>
-
+    <div class="stage-card locked" data-stage="2">
+      <div class="stage-number">02</div><div class="stage-icon">👀</div>
+      <div class="stage-copy"><span class="stage-tag">UNLOCKS NEXT</span><h2>Explore</h2><p>Observe the workplace, notice skills, tools, machines and interesting things.</p><b>🔒 Complete Prepare first</b></div>
     </div>
 
+    <div class="connector"><span>↓</span></div>
 
-    <script>
+    <div class="stage-card locked" data-stage="3">
+      <div class="stage-number">03</div><div class="stage-icon">🎯</div>
+      <div class="stage-copy"><span class="stage-tag">YOUR MISSION</span><h2>Goals & Daily Learning</h2><p>Set four learning goals and use daily reflections to organise new knowledge.</p><b>🔒 Unlock later</b></div>
+    </div>
 
-        function beginJourney() {
+    <div class="connector"><span>↓</span></div>
 
-            alert("Your internship journey begins now! 🚀");
+    <div class="stage-card locked" data-stage="4">
+      <div class="stage-number">04</div><div class="stage-icon">🏆</div>
+      <div class="stage-copy"><span class="stage-tag">FINISH LINE</span><h2>Learn Better & Look Back</h2><p>Collect learning badges, reflect on growth, complete your self-assessment and explore future pathways.</p><b>🔒 Unlock later</b></div>
+    </div>
+  </section>
 
-        }
-
-    </script>
-
+  <section class="achievement-strip">
+    <div><span>🔥</span><b>Keep going!</b><small>Every completed mission earns XP.</small></div>
+    <div><span>🏆</span><b>Collect badges</b><small>Summarising · Word Map · Drawing · Consistency · Learn Better Champion</small></div>
+  </section>
+</main>
+</div>
+<script>
+function refreshStats(){
+  document.getElementById("xp").textContent=localStorage.getItem("lahiXP")||"0";
+  document.getElementById("badges").textContent=localStorage.getItem("lahiBadges")||"0";
+  const done = Number(localStorage.getItem("lahiPrepareDone")||0);
+  const pct = done ? 25 : 0;
+  document.getElementById("progressText").textContent=pct+"%";
+  document.getElementById("progressBar").style.width=pct+"%";
+  if(done){
+    const card=document.querySelector('[data-stage="2"]');
+    card.classList.remove("locked"); card.classList.add("unlocked");
+    card.innerHTML='<div class="stage-number">02</div><div class="stage-icon">👀</div><div class="stage-copy"><span class="stage-tag">UNLOCKED</span><h2>Explore</h2><p>Observe the workplace, notice skills, tools, machines and interesting things.</p><b>Next mission →</b></div>';
+  }
+}
+refreshStats();
+</script>
 </body>
-
 </html>

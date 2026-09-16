@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission 01: Prepare | LAHI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+<header class="topbar">
+  <a class="brand brand-link" href="journey.html">← LAHI <span>Journey Map</span></a>
+  <div class="top-pill">⭐ <span id="xp">0</span> XP</div>
+</header>
+
+<main class="mission-wrap">
+  <div class="mission-top">
+    <div><span class="mission-label">MISSION 01</span><h1>Get ready for your internship 🛡️</h1><p>The toolkit says there are important things to complete before you start. Let's turn them into missions.</p></div>
+    <div class="mission-badge">+25 XP</div>
+  </div>
+
+  <div class="challenge-grid">
+    <button class="challenge done-choice" data-id="parent" onclick="toggleTask(this)">
+      <span class="challenge-icon">👨‍👩‍👧</span><span><b>Talk to your parent/guardian</b><small>Explain what the internship is, how it helps you and that it is for 80 hours.</small></span><i>○</i>
+    </button>
+    <button class="challenge" data-id="consent" onclick="toggleTask(this)">
+      <span class="challenge-icon">✅</span><span><b>Complete consent & confirmation</b><small>Get the required consent and confirmation before starting.</small></span><i>○</i>
+    </button>
+    <button class="challenge" data-id="safety" onclick="toggleTask(this)">
+      <span class="challenge-icon">🛡️</span><span><b>Know your safety basics</b><small>You have the right to feel safe, respected and protected.</small></span><i>○</i>
+    </button>
+    <button class="challenge" data-id="details" onclick="toggleTask(this)">
+      <span class="challenge-icon">📍</span><span><b>Know your internship details</b><small>Know where you are going, who your employer is and how you will travel.</small></span><i>○</i>
+    </button>
+  </div>
+
+  <section class="safety-panel">
+    <div class="safety-art">🛡️</div>
+    <div><span class="eyebrow">SAFETY CHECK</span><h2>Your safety is your priority.</h2><p>During your internship, you have the right to feel safe, respected and protected. You can say “No” to anything that makes you feel unsafe or uncomfortable.</p><div class="chips"><span>Respect</span><span>Speak up</span><span>Stay informed</span></div></div>
+  </section>
+
+  <section class="parent-mission">
+    <div class="mission-icon">💬</div>
+    <div><span class="eyebrow">MINI CHALLENGE</span><h2>Can you explain your internship in 30 seconds?</h2><p>Tell your parent/guardian what the internship is, how it can benefit you, the 80-hour requirement, your employer details and how you will travel.</p><button class="secondary-btn" onclick="completeParent()">I completed the conversation ✓</button></div>
+  </section>
+
+  <div class="mission-footer">
+    <div><b id="taskCount">0/4</b> tasks complete</div>
+    <button id="finishBtn" class="primary-btn disabled" onclick="finishMission()">🔒 Complete Mission</button>
+  </div>
+</main>
+</div>
+
+<script>
+const KEY="lahiPrepareTasks";
+let tasks=JSON.parse(localStorage.getItem(KEY)||"{}");
+function draw(){
+ document.querySelectorAll(".challenge").forEach(el=>{
+   const done=!!tasks[el.dataset.id]; el.classList.toggle("selected",done); el.querySelector("i").textContent=done?"✓":"○";
+ });
+ const n=Object.keys(tasks).length;
+ document.getElementById("taskCount").textContent=n+"/4";
+ const btn=document.getElementById("finishBtn");
+ btn.classList.toggle("disabled",n<4); btn.textContent=n===4?"🏁 Complete Mission +25 XP":"🔒 Complete Mission";
+}
+function toggleTask(el){tasks[el.dataset.id]=!tasks[el.dataset.id]; if(!tasks[el.dataset.id])delete tasks[el.dataset.id]; localStorage.setItem(KEY,JSON.stringify(tasks));draw();}
+function completeParent(){tasks.parent=true;localStorage.setItem(KEY,JSON.stringify(tasks));draw();alert("Great! You completed the parent conversation challenge. +5 XP");}
+function finishMission(){
+ if(Object.keys(tasks).length<4)return;
+ localStorage.setItem("lahiPrepareDone","1");
+ localStorage.setItem("lahiXP",String(Number(localStorage.getItem("lahiXP")||0)+25));
+ localStorage.setItem("lahiBadges",String(Math.max(1,Number(localStorage.getItem("lahiBadges")||0))));
+ alert("Mission complete! 🎉 Prepare badge unlocked. +25 XP");
+ location.href="journey.html";
+}
+document.getElementById("xp").textContent=localStorage.getItem("lahiXP")||"0";
+draw();
+</script>
+</body>
+</html>

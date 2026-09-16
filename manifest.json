@@ -1,9 +1,9 @@
 {
-    "name": "LAHI Internship Journey",
-    "short_name": "LAHI Internship",
-    "start_url": "./",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#ffffff",
-    "description": "Lend A Hand India Internship Student Portal"
+  "name":"LAHI Internship Journey",
+  "short_name":"LAHI Internship",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#f6f8ff",
+  "theme_color":"#3157D5",
+  "description":"Interactive student internship learning journey"
 }
