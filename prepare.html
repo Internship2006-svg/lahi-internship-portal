@@ -4,392 +4,419 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mission 1 – Understand Your Internship | LAHI</title>
+<title>Mission 1 | Understand Your Internship | LAHI</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f5f7fb;
-  color:#24324a;
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #24324a;
 }
 
-/* =========================
+/* ================================
    NAVIGATION
-========================= */
+================================ */
 
-.student-nav{
-  position:sticky;
-  top:0;
-  z-index:1000;
+.student-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 
-  display:flex;
-  align-items:center;
-  gap:10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
-  padding:12px 20px;
+  padding: 12px 20px;
 
-  background:#ffffff;
+  background: #ffffff;
+  border-bottom: 1px solid #e4e8ef;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
 
-  border-bottom:1px solid #e5e9f2;
-
-  box-shadow:0 2px 8px rgba(0,0,0,.05);
+.nav-logo {
+  margin-right: auto;
+  font-size: 18px;
+  font-weight: 800;
+  color: #173b68;
 }
 
 .student-nav a,
-.student-nav button{
+.student-nav button {
+  border: none;
+  text-decoration: none;
+  cursor: pointer;
 
-  text-decoration:none;
+  background: #f0f3f8;
+  color: #24324a;
 
-  border:none;
+  padding: 9px 14px;
+  border-radius: 10px;
 
-  background:#f1f4f9;
-
-  color:#24324a;
-
-  padding:9px 15px;
-
-  border-radius:10px;
-
-  font-size:14px;
-
-  font-weight:600;
-
-  cursor:pointer;
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .student-nav a:hover,
-.student-nav button:hover{
-  background:#e5eaf3;
+.student-nav button:hover {
+  background: #e4e9f1;
 }
 
-.nav-logo{
-  font-weight:800;
-  font-size:18px;
-  margin-right:auto;
-  color:#173b68;
-}
-
-/* =========================
+/* ================================
    HERO
-========================= */
+================================ */
 
-.hero{
-
-  background:linear-gradient(
+.hero {
+  background: linear-gradient(
     135deg,
     #173b68,
-    #2b6da8
+    #2d70aa
   );
 
-  color:white;
-
-  padding:45px 20px;
+  color: white;
+  padding: 45px 20px;
 }
 
-.hero-inner{
-  max-width:1000px;
-  margin:auto;
+.hero-inner {
+  max-width: 1000px;
+  margin: auto;
 }
 
-.mission-label{
-
-  font-size:14px;
-
-  font-weight:700;
-
-  letter-spacing:1px;
-
-  opacity:.9;
-
-  margin-bottom:10px;
+.mission-number {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  opacity: 0.9;
 }
 
-.hero h1{
-
-  font-size:38px;
-
-  margin:0 0 12px;
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: 40px;
 }
 
-.hero p{
-
-  font-size:18px;
-
-  line-height:1.6;
-
-  max-width:750px;
-
-  margin:0;
+.hero p {
+  margin: 0;
+  max-width: 780px;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
-/* =========================
+/* ================================
    MAIN
-========================= */
+================================ */
 
-.container{
-
-  max-width:1000px;
-
-  margin:35px auto;
-
-  padding:0 20px 60px;
+.container {
+  max-width: 1000px;
+  margin: 35px auto;
+  padding: 0 20px 60px;
 }
 
-/* =========================
+/* ================================
    CARDS
-========================= */
+================================ */
 
-.intro-card,
-.section-card{
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 26px;
+  margin-bottom: 24px;
 
-  background:white;
-
-  border-radius:18px;
-
-  padding:25px;
-
-  margin-bottom:22px;
-
-  box-shadow:
-    0 5px 20px rgba(0,0,0,.06);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
 }
 
-.intro-card h2,
-.section-card h2{
-
-  margin-top:0;
-
-  color:#173b68;
+.card h2 {
+  margin-top: 0;
+  color: #173b68;
+  font-size: 24px;
 }
 
-.intro-card p,
-.section-card p,
-.section-card li{
-
-  line-height:1.7;
+.card h3 {
+  color: #2d70aa;
 }
 
-/* =========================
+.card p,
+.card li {
+  line-height: 1.7;
+}
+
+/* ================================
+   WELCOME BOX
+================================ */
+
+.welcome-box {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+
+  margin-bottom: 25px;
+
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.welcome-box h2 {
+  color: #173b68;
+  margin-top: 0;
+}
+
+.welcome-box p {
+  line-height: 1.7;
+}
+
+/* ================================
    IMPORTANT BOX
-========================= */
+================================ */
 
-.important{
+.important-box {
+  background: #fff8df;
 
-  background:#fff8df;
+  border-left: 5px solid #e3ad22;
 
-  border-left:5px solid #e2ad20;
+  border-radius: 10px;
 
-  padding:18px;
+  padding: 18px;
 
-  border-radius:10px;
+  margin: 20px 0;
 
-  margin:18px 0;
-
-  line-height:1.6;
+  line-height: 1.7;
 }
 
-/* =========================
-   SAFETY BOX
-========================= */
+/* ================================
+   SUCCESS BOX
+================================ */
 
-.safety{
+.success-box {
+  background: #eef8f1;
 
-  background:#eef8f1;
+  border-left: 5px solid #45a768;
 
-  border-left:5px solid #43a765;
+  border-radius: 10px;
 
-  padding:18px;
+  padding: 18px;
 
-  border-radius:10px;
+  margin: 20px 0;
 
-  margin:18px 0;
-
-  line-height:1.6;
+  line-height: 1.7;
 }
 
-/* =========================
+/* ================================
+   CHECKLIST
+================================ */
+
+.checklist {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 15px;
+
+  background: #f7f9fc;
+
+  border: 1px solid #e4e9f1;
+
+  border-radius: 12px;
+}
+
+.check-item input {
+  width: 18px;
+  height: 18px;
+
+  margin-top: 3px;
+
+  cursor: pointer;
+}
+
+/* ================================
    SECTOR GRID
-========================= */
+================================ */
 
-.sector-grid{
-
-  display:grid;
+.sector-grid {
+  display: grid;
 
   grid-template-columns:
     repeat(
       auto-fit,
-      minmax(190px,1fr)
+      minmax(180px, 1fr)
     );
 
-  gap:12px;
+  gap: 12px;
 
-  margin-top:18px;
+  margin-top: 20px;
 }
 
-.sector{
+.sector {
+  background: #f4f7fb;
 
-  background:#f4f7fb;
+  border: 1px solid #e2e8f0;
 
-  border:1px solid #e3e9f2;
+  border-radius: 12px;
 
-  border-radius:12px;
+  padding: 15px;
 
-  padding:14px;
+  text-align: center;
 
-  font-weight:600;
-
-  text-align:center;
+  font-weight: 700;
 }
 
-/* =========================
-   CHECKLIST
-========================= */
+/* ================================
+   NUMBER CARDS
+================================ */
 
-.checklist{
+.info-grid {
+  display: grid;
 
-  display:grid;
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(220px, 1fr)
+    );
 
-  gap:12px;
+  gap: 15px;
 
-  margin-top:15px;
+  margin-top: 20px;
 }
 
-.check-item{
+.info-box {
+  background: #f7f9fc;
 
-  display:flex;
+  border-radius: 14px;
 
-  align-items:flex-start;
+  padding: 20px;
 
-  gap:12px;
-
-  padding:14px;
-
-  background:#f7f9fc;
-
-  border-radius:12px;
-
-  border:1px solid #e5eaf2;
+  border: 1px solid #e3e8ef;
 }
 
-.check-item input{
+.info-box strong {
+  display: block;
 
-  margin-top:4px;
+  color: #173b68;
 
-  width:18px;
-
-  height:18px;
-
-  cursor:pointer;
+  margin-bottom: 7px;
 }
 
-/* =========================
+/* ================================
    START AREA
-========================= */
+================================ */
 
-.start-area{
+.start-card {
+  background: #ffffff;
 
-  text-align:center;
+  border-radius: 22px;
 
-  background:white;
+  padding: 40px 25px;
 
-  border-radius:20px;
+  text-align: center;
 
-  padding:35px 20px;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
 
-  margin-top:30px;
-
-  box-shadow:
-    0 5px 20px rgba(0,0,0,.07);
+  margin-top: 30px;
 }
 
-.start-area h2{
-
-  margin-top:0;
-
-  color:#173b68;
+.start-card h2 {
+  margin-top: 0;
+  color: #173b68;
 }
 
-.start-btn{
-
-  border:none;
-
-  background:#f2a900;
-
-  color:#173b68;
-
-  font-size:18px;
-
-  font-weight:800;
-
-  padding:16px 35px;
-
-  border-radius:14px;
-
-  cursor:pointer;
-
-  margin-top:15px;
-
-  box-shadow:
-    0 5px 12px rgba(0,0,0,.12);
+.start-card p {
+  line-height: 1.6;
 }
 
-.start-btn:hover{
+.start-button {
+  display: inline-block;
 
-  background:#ffb81c;
+  border: none;
 
-  transform:translateY(-1px);
+  background: #f2a900;
+
+  color: #173b68;
+
+  font-size: 19px;
+
+  font-weight: 800;
+
+  padding: 17px 38px;
+
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  margin-top: 18px;
+
+  box-shadow: 0 5px 14px rgba(0,0,0,0.14);
+
+  transition: 0.2s;
 }
 
-/* =========================
+.start-button:hover {
+  background: #ffb81c;
+  transform: translateY(-2px);
+}
+
+/* ================================
+   FOOTER
+================================ */
+
+footer {
+  text-align: center;
+
+  padding: 30px 20px;
+
+  color: #718096;
+
+  font-size: 13px;
+}
+
+/* ================================
    MOBILE
-========================= */
+================================ */
 
-@media(max-width:650px){
+@media (max-width: 650px) {
 
-  .student-nav{
-    flex-wrap:wrap;
+  .student-nav {
+    flex-wrap: wrap;
   }
 
-  .nav-logo{
-    width:100%;
-    margin-bottom:3px;
+  .nav-logo {
+    width: 100%;
+    margin-bottom: 4px;
   }
 
-  .hero h1{
-    font-size:30px;
+  .hero h1 {
+    font-size: 30px;
   }
 
-  .hero p{
-    font-size:16px;
+  .hero p {
+    font-size: 16px;
   }
 
-  .intro-card,
-  .section-card{
-    padding:20px;
+  .card,
+  .welcome-box {
+    padding: 20px;
   }
 
-  .start-btn{
-    width:100%;
+  .start-button {
+    width: 100%;
   }
-
 }
-
 </style>
 </head>
 
 
 <body>
 
-
-<!-- =====================================================
+<!-- ==================================================
      NAVIGATION
-===================================================== -->
+================================================== -->
 
 <nav class="student-nav">
 
@@ -412,15 +439,15 @@ body{
 </nav>
 
 
-<!-- =====================================================
+<!-- ==================================================
      HERO
-===================================================== -->
+================================================== -->
 
 <section class="hero">
 
   <div class="hero-inner">
 
-    <div class="mission-label">
+    <div class="mission-number">
       MISSION 1 • UNDERSTAND YOUR INTERNSHIP
     </div>
 
@@ -429,9 +456,8 @@ body{
     </h1>
 
     <p>
-      Before you begin your internship, make sure you understand
-      where you are going, what you will do, how to stay safe,
-      and who can support you.
+      Before you begin your internship, understand what an internship
+      is, what you can learn, how to prepare yourself and how to stay safe.
     </p>
 
   </div>
@@ -439,102 +465,157 @@ body{
 </section>
 
 
-<!-- =====================================================
+<!-- ==================================================
      MAIN CONTENT
-===================================================== -->
+================================================== -->
 
 <main class="container">
 
 
-<!-- =====================================================
-     INTRODUCTION
-===================================================== -->
+<!-- ==================================================
+     WELCOME
+================================================== -->
 
-<div class="intro-card">
+<div class="welcome-box">
 
   <h2>
-    🚀 Before You Begin
+    👋 Welcome to Your Internship Journey!
   </h2>
 
   <p>
-    An internship is an opportunity to experience a real workplace,
-    learn from people around you and understand what it means to work
-    in a particular sector or job role.
+    An internship is a chance to work at a real workplace for a short
+    period of time. You get to try out a job, see how things work,
+    and learn skills that you can use in the future.
   </p>
 
   <p>
-    Before starting, complete the preparation activities below.
-    They will help you enter your internship with confidence.
+    You are not expected to know everything.
+    <strong>You are here to learn.</strong>
   </p>
 
-  <div class="important">
+  <div class="important-box">
 
-    <strong>Remember:</strong>
+    <strong>Say this to yourself every day:</strong>
 
-    Your internship is not only about completing tasks.
-    It is also about observing, asking questions, learning,
-    working with others and reflecting on your experience.
+    <ul>
+
+      <li>
+        I am ready for today.
+      </li>
+
+      <li>
+        I come on time, every day.
+      </li>
+
+      <li>
+        I watch, listen and ask questions.
+      </li>
+
+      <li>
+        I am here to learn.
+      </li>
+
+      <li>
+        I am kind to everyone around me.
+      </li>
+
+      <li>
+        I can do this!
+      </li>
+
+    </ul>
 
   </div>
 
 </div>
 
 
-<!-- =====================================================
-     1. TALK TO PARENT
-===================================================== -->
+<!-- ==================================================
+     WHAT YOU WILL GAIN
+================================================== -->
 
-<div class="section-card">
+<div class="card">
 
   <h2>
-    1️⃣ Talk to Your Parent / Guardian
+    🌟 What Can You Gain From an Internship?
+  </h2>
+
+  <div class="info-grid">
+
+    <div class="info-box">
+      <strong>💼 Real Work Experience</strong>
+      Experience how a real workplace functions.
+    </div>
+
+    <div class="info-box">
+      <strong>🧭 Career Understanding</strong>
+      Learn more about different jobs and careers.
+    </div>
+
+    <div class="info-box">
+      <strong>🔎 Explore Your Interests</strong>
+      Discover what kind of work you enjoy.
+    </div>
+
+    <div class="info-box">
+      <strong>🛠️ Hands-on Learning</strong>
+      Learn by observing and doing real tasks.
+    </div>
+
+    <div class="info-box">
+      <strong>⭐ Employability Skills</strong>
+      Build communication, teamwork, initiative and other workplace skills.
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     PARENT / GUARDIAN
+================================================== -->
+
+<div class="card">
+
+  <h2>
+    👨‍👩‍👧 Talk to Your Parent / Guardian
   </h2>
 
   <p>
-    Talk to your parent or guardian before starting your internship.
-    Make sure they know where you will go, what you will be doing
-    and how long the internship will last.
+    Before starting your internship, talk to your parent or guardian.
+    Make sure they understand where you will go, what you will do
+    and when your internship will take place.
   </p>
 
   <div class="checklist">
 
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
-        I have discussed my internship with my parent / guardian.
+        I have spoken to my parent / guardian about my internship.
       </span>
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
-        My parent / guardian knows the workplace location.
+        My parent / guardian knows where my workplace is.
       </span>
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
-        My parent / guardian knows the internship dates and timings.
+        My parent / guardian knows my internship dates and timings.
       </span>
 
     </label>
@@ -544,29 +625,26 @@ body{
 </div>
 
 
-<!-- =====================================================
-     2. CONSENT
-===================================================== -->
+<!-- ==================================================
+     CONSENT
+================================================== -->
 
-<div class="section-card">
+<div class="card">
 
   <h2>
-    2️⃣ Complete the Consent and Confirmation
+    📋 Consent and Confirmation
   </h2>
 
   <p>
-    Before starting the internship, make sure the required
-    consent and confirmation process is completed.
+    Before starting your internship, make sure the required
+    consent and confirmation process has been completed.
   </p>
 
   <div class="checklist">
 
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I have completed the required Consent Form.
@@ -574,13 +652,9 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I have understood the Child Protection Policy.
@@ -588,27 +662,19 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
-        I have read / understood the Safety Guidelines.
+        I have understood the Safety Guidelines.
       </span>
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         The required parent / guardian signature is completed.
@@ -616,16 +682,12 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
-        The required employer confirmation / signature is completed.
+        The required employer confirmation is completed.
       </span>
 
     </label>
@@ -635,22 +697,20 @@ body{
 </div>
 
 
-<!-- =====================================================
-     3. SECTORS
-===================================================== -->
+<!-- ==================================================
+     INTERNSHIP SECTORS
+================================================== -->
 
-<div class="section-card">
+<div class="card">
 
   <h2>
-    3️⃣ Know Your Internship Sector
+    🏢 Know Your Internship Sector
   </h2>
 
   <p>
-    Internships can happen across different sectors.
-    Understand which sector your internship belongs to and
-    what kind of work happens there.
+    Internships can happen in many different sectors.
+    Your internship may be in one of the following areas:
   </p>
-
 
   <div class="sector-grid">
 
@@ -700,49 +760,17 @@ body{
 
   </div>
 
-
-  <div class="checklist">
-
-    <label class="check-item">
-
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
-
-      <span>
-        I know which sector my internship belongs to.
-      </span>
-
-    </label>
-
-
-    <label class="check-item">
-
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
-
-      <span>
-        I know what kind of products / services the workplace provides.
-      </span>
-
-    </label>
-
-  </div>
-
 </div>
 
 
-<!-- =====================================================
-     4. INTERNSHIP DETAILS
-===================================================== -->
+<!-- ==================================================
+     KNOW YOUR WORKPLACE
+================================================== -->
 
-<div class="section-card">
+<div class="card">
 
   <h2>
-    4️⃣ Know Your Internship Details
+    📍 Know Your Internship Details
   </h2>
 
   <p>
@@ -750,15 +778,11 @@ body{
     of your internship.
   </p>
 
-
   <div class="checklist">
 
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I know the name of my employer / workplace.
@@ -766,13 +790,9 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I know the workplace address / location.
@@ -780,13 +800,9 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I know my internship start date.
@@ -794,13 +810,9 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I know my internship timings.
@@ -808,82 +820,90 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
-        I know whom I should contact if I have a problem.
+        I know who my workplace mentor / contact person is.
       </span>
 
     </label>
 
   </div>
 
+  <div class="success-box">
+
+    <strong>Remember:</strong>
+
+    Your employer is your workplace mentor.
+    Try to learn as much as you can from them.
+
+    <br><br>
+
+    On your first day, introduce yourself and tell them:
+
+    <br><br>
+
+    <strong>
+      “I am looking forward to learning from you!”
+    </strong>
+
+  </div>
+
 </div>
 
 
-<!-- =====================================================
-     5. SAFETY
-===================================================== -->
+<!-- ==================================================
+     SAFETY
+================================================== -->
 
-<div class="section-card">
+<div class="card">
 
   <h2>
-    🛡️ 5️⃣ Know the Safety Basics
+    🛡️ Know the Safety Basics
   </h2>
 
   <p>
-    Safety comes first. On your first day, pay attention to
-    the workplace safety arrangements.
+    Safety is one of the most important parts of your internship.
+    Pay attention to the workplace and ask questions if you are unsure.
   </p>
 
+  <div class="important-box">
 
-  <div class="safety">
-
-    <strong>
-      On your first day, find out:
-    </strong>
+    <strong>Find out where these are:</strong>
 
     <ul>
 
       <li>
-        Where the first-aid kit is located.
+        First-aid kit
       </li>
 
       <li>
-        What safety rules you need to follow.
+        Fire exit
       </li>
 
       <li>
-        Which tools or equipment require special care.
+        Safety equipment
       </li>
 
       <li>
-        Where the fire exit is located.
+        Important safety instructions
       </li>
 
       <li>
-        Who you should contact if something feels unsafe.
+        Person to contact if something feels unsafe
       </li>
 
     </ul>
 
   </div>
 
-
   <div class="checklist">
 
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I know where the first-aid kit is / will find it on Day 1.
@@ -891,13 +911,9 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I know the important safety rules.
@@ -905,13 +921,9 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I know where the fire exit is.
@@ -919,13 +931,9 @@ body{
 
     </label>
 
-
     <label class="check-item">
 
-      <input
-        type="checkbox"
-        class="mission-check"
-      >
+      <input type="checkbox">
 
       <span>
         I know whom to contact if I feel unsafe.
@@ -938,39 +946,98 @@ body{
 </div>
 
 
-<!-- =====================================================
-     READY CHECK
-===================================================== -->
+<!-- ==================================================
+     HOW TO HAVE A SUCCESSFUL INTERNSHIP
+================================================== -->
 
-<div class="section-card">
+<div class="card">
 
   <h2>
-    ✅ Your Ready-to-Start Checklist
+    ⭐ How to Have a Successful Internship
   </h2>
 
-  <p>
-    Before you start your internship, make sure you have
-    understood the preparation points above.
-  </p>
+  <div class="checklist">
 
-  <div class="important">
+    <label class="check-item">
 
-    <strong>Tip:</strong>
+      <input type="checkbox">
 
-    If you are unsure about anything, ask your teacher,
-    Vocational Trainer, parent / guardian or employer before
-    beginning the internship.
+      <span>
+        Come on time every day.
+      </span>
+
+    </label>
+
+    <label class="check-item">
+
+      <input type="checkbox">
+
+      <span>
+        Listen carefully to instructions.
+      </span>
+
+    </label>
+
+    <label class="check-item">
+
+      <input type="checkbox">
+
+      <span>
+        Ask questions when you do not understand something.
+      </span>
+
+    </label>
+
+    <label class="check-item">
+
+      <input type="checkbox">
+
+      <span>
+        Be polite and respectful to everyone.
+      </span>
+
+    </label>
+
+    <label class="check-item">
+
+      <input type="checkbox">
+
+      <span>
+        Keep your workplace clean and organised.
+      </span>
+
+    </label>
+
+    <label class="check-item">
+
+      <input type="checkbox">
+
+      <span>
+        Take initiative and try to learn new things.
+      </span>
+
+    </label>
+
+    <label class="check-item">
+
+      <input type="checkbox">
+
+      <span>
+        Work well with others.
+      </span>
+
+    </label>
 
   </div>
 
 </div>
 
 
-<!-- =====================================================
-     START BUTTON
-===================================================== -->
+<!-- ==================================================
+     READY TO BEGIN
+================================================== -->
 
-<div class="start-area">
+<div class="start-card">
 
   <h2>
     🎯 Ready to Begin?
@@ -980,8 +1047,13 @@ body{
     You have completed the preparation for your internship.
   </p>
 
+  <p>
+    When you are ready, click below to continue your journey.
+  </p>
+
   <button
-    class="start-btn"
+    type="button"
+    class="start-button"
     onclick="finish()">
 
     🚀 LET'S BEGIN
@@ -994,38 +1066,33 @@ body{
 </main>
 
 
-<!-- =====================================================
+<!-- ==================================================
      FOOTER
-===================================================== -->
+================================================== -->
 
-<footer style="
-  text-align:center;
-  padding:30px 20px;
-  color:#718096;
-  font-size:13px;
-">
+<footer>
 
   Lend A Hand India • Internship Journey
 
 </footer>
 
 
-<!-- =====================================================
-     IMPORTANT
-     NO progress.js HERE.
-     
-     This is intentionally using the original simple
-     Mission 1 completion function so the button cannot
-     be blocked by the new progression system.
-===================================================== -->
+<!-- ==================================================
+     MISSION 1 JAVASCRIPT
+
+     IMPORTANT:
+     There is NO progress.js here.
+
+     Mission 1 uses this simple function directly.
+================================================== -->
 
 <script>
 
 function finish() {
 
-  /* -----------------------------------------
-     ORIGINAL PREPARE COMPLETION FLAG
-  ----------------------------------------- */
+  /* --------------------------------
+     Save Mission 1 as completed
+  -------------------------------- */
 
   localStorage.setItem(
     "lahiPrepareDone",
@@ -1033,21 +1100,15 @@ function finish() {
   );
 
 
-  /* -----------------------------------------
-     MISSION 1 COMPLETION
-  ----------------------------------------- */
-
   localStorage.setItem(
     "lahi_mission1",
     "complete"
   );
 
 
-  /* -----------------------------------------
-     XP
-     
-     Give 25 XP only once.
-  ----------------------------------------- */
+  /* --------------------------------
+     Add XP only once
+  -------------------------------- */
 
   if (
     localStorage.getItem(
@@ -1055,16 +1116,17 @@ function finish() {
     ) !== "1"
   ) {
 
-    let xp =
+    let currentXP =
       Number(
         localStorage.getItem("lahiXP") || 0
       );
 
-    xp += 25;
+    currentXP =
+      currentXP + 25;
 
     localStorage.setItem(
       "lahiXP",
-      xp
+      currentXP
     );
 
     localStorage.setItem(
@@ -1075,9 +1137,9 @@ function finish() {
   }
 
 
-  /* -----------------------------------------
-     BADGE
-  ----------------------------------------- */
+  /* --------------------------------
+     Save badge
+  -------------------------------- */
 
   localStorage.setItem(
     "lahiBadges",
@@ -1085,9 +1147,9 @@ function finish() {
   );
 
 
-  /* -----------------------------------------
-     MOVE TO JOURNEY
-  ----------------------------------------- */
+  /* --------------------------------
+     Go back to Journey
+  -------------------------------- */
 
   window.location.href =
     "journey.html";
