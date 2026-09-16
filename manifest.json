@@ -1,0 +1,9 @@
+{
+  "name": "LAHI Internship Journey",
+  "short_name": "Internship Journey",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f6f8fb",
+  "theme_color": "#16324f",
+  "icons": []
+}

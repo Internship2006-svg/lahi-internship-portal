@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#16324f">
+  <title>Internship Journey | LAHI</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <button id="menuBtn" class="iconBtn" aria-label="Open menu">☰</button>
+  <div class="brand">LAHI <span>Internship Journey</span></div>
+  <div class="topActions">
+    <span id="progressText">0%</span>
+    <button id="saveBtn" class="smallBtn">Save</button>
+  </div>
+</header>
+
+<div class="app">
+  <aside id="sidebar" class="sidebar">
+    <div class="studentMini">
+      <div class="avatar">🎓</div>
+      <div><strong id="studentName">Student</strong><small id="studentTrade">Your trade</small></div>
+    </div>
+    <div class="progressTrack"><div id="progressBar"></div></div>
+    <nav id="nav"></nav>
+    <button id="exportBtn" class="outlineBtn">Download My Progress</button>
+  </aside>
+
+  <main class="main">
+    <div id="breadcrumbs" class="breadcrumbs"></div>
+    <section id="hero" class="hero"></section>
+    <section id="activity" class="activity"></section>
+    <details class="sourceBox">
+      <summary>View the original handbook content for this page</summary>
+      <pre id="sourceText"></pre>
+    </details>
+    <div class="pager">
+      <button id="prevBtn" class="secondaryBtn">← Previous</button>
+      <button id="nextBtn" class="primaryBtn">Next →</button>
+    </div>
+  </main>
+</div>
+
+<div id="toast" class="toast"></div>
+<script src="content.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
