@@ -1,93 +1,159 @@
-<nav class="student-nav">
-
-    <a href="index.html">
-        🏠 Home
-    </a>
-
-    <a href="journey.html">
-        🗺️ My Journey
-    </a>
-
-    <button onclick="history.back()">
-        ← Back
-    </button>
-
-</nav>
-
 const LAHI_PROGRESS = {
 
-    get(key) {
-        return localStorage.getItem("lahi_" + key);
-    },
+  get: function(key) {
+    return localStorage.getItem("lahi_" + key);
+  },
 
-    set(key, value) {
-        localStorage.setItem("lahi_" + key, value);
-    },
+  set: function(key, value) {
+    localStorage.setItem("lahi_" + key, value);
+  },
 
-    done(key) {
-        return this.get(key) === "complete";
-    },
+  done: function(key) {
+    return this.get(key) === "complete";
+  },
 
-    complete(key) {
-        this.set(key, "complete");
-    }
+  complete: function(key) {
+    this.set(key, "complete");
+  }
+
 };
 
 
-// Check whether a mission is unlocked
-function missionUnlocked(mission) {
+/* ==========================================
+   CHECK WHETHER A MISSION IS UNLOCKED
+========================================== */
 
-    if (mission === 1) return true;
+function missionUnlocked(missionNumber) {
 
-    return LAHI_PROGRESS.done("mission" + (mission - 1));
+  /*
+   * Mission 1 is ALWAYS unlocked.
+   */
+
+  if (missionNumber === 1) {
+    return true;
+  }
+
+
+  /*
+   * Every other mission requires
+   * the previous mission to be completed.
+   */
+
+  return LAHI_PROGRESS.done(
+    "mission" + (missionNumber - 1)
+  );
+
 }
 
 
-// Complete mission
+/* ==========================================
+   COMPLETE A MISSION
+========================================== */
+
 function completeMission(missionNumber) {
 
-    const missionKey = "mission" + missionNumber;
+  const missionKey =
+    "mission" + missionNumber;
 
-    if (!LAHI_PROGRESS.done(missionKey)) {
 
-        LAHI_PROGRESS.complete(missionKey);
+  /*
+   * Don't award XP twice.
+   */
 
-        let xp = Number(
-            localStorage.getItem("lahiXP") || 0
-        );
+  if (
+    !LAHI_PROGRESS.done(missionKey)
+  ) {
 
-        xp += 25;
+    LAHI_PROGRESS.complete(
+      missionKey
+    );
 
-        localStorage.setItem("lahiXP", xp);
-    }
+
+    let xp =
+      Number(
+        localStorage.getItem("lahiXP") || 0
+      );
+
+
+    xp += 25;
+
+
+    localStorage.setItem(
+      "lahiXP",
+      xp
+    );
+
+
+    /*
+     * Keep separate XP protection flag.
+     */
+
+    localStorage.setItem(
+      "lahi_mission" + missionNumber + "_xp",
+      "1"
+    );
+
+  }
+
+
+  /*
+   * Backward compatibility for Mission 1.
+   */
+
+  if (missionNumber === 1) {
+
+    localStorage.setItem(
+      "lahiPrepareDone",
+      "1"
+    );
+
+  }
+
 }
 
 
-// Open mission
-function openMission(missionNumber, page) {
+/* ==========================================
+   OPEN MISSION
+========================================== */
 
-    if (missionUnlocked(missionNumber)) {
+function openMission(
+  missionNumber,
+  page
+) {
 
-        window.location.href = page;
+  if (
+    missionUnlocked(missionNumber)
+  ) {
 
-    } else {
+    window.location.href =
+      page;
 
-        alert(
-            "🔒 Complete the previous mission first!"
-        );
-    }
+  } else {
+
+    alert(
+      "🔒 Complete the previous mission first!"
+    );
+
+  }
+
 }
 
 
-// Go back to journey
+/* ==========================================
+   NAVIGATION
+========================================== */
+
 function goToJourney() {
 
-    window.location.href = "journey.html";
+  window.location.href =
+    "journey.html";
+
 }
 
 
-// Go home
 function goHome() {
 
-    window.location.href = "index.html";
+  window.location.href =
+    "index.html";
+
 }
