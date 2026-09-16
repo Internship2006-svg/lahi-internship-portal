@@ -1,84 +1,1393 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Journey Map | LAHI</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Internship Adventure | LAHI</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f7f5ff;
+      color: #25233a;
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .topbar {
+      height: 72px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5%;
+      box-shadow: 0 3px 18px rgba(0,0,0,.08);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: #25233a;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg,#5b4bdb,#7b67f2);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      box-shadow: 0 6px 15px rgba(91,75,219,.3);
+    }
+
+    .brand-name {
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    .brand-sub {
+      display: block;
+      font-size: 10px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 10px;
+    }
+
+    .stat {
+      background: #f5f3ff;
+      border-radius: 30px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .page {
+      max-width: 1150px;
+      margin: auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 30px;
+      align-items: center;
+      margin-bottom: 35px;
+    }
+
+    .eyebrow {
+      color: #5b4bdb;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+    }
+
+    .hero h1 {
+      font-size: 50px;
+      line-height: 1.05;
+      margin: 12px 0;
+    }
+
+    .hero h1 span {
+      color: #ef704e;
+    }
+
+    .hero p {
+      color: #6d6b78;
+      font-size: 17px;
+      line-height: 1.6;
+      max-width: 650px;
+    }
+
+    /* =========================
+       LEVEL CARD
+    ========================= */
+
+    .level-card {
+      background: white;
+      border-radius: 26px;
+      padding: 24px;
+      box-shadow: 0 12px 35px rgba(91,75,219,.12);
+      border: 1px solid #ece9ff;
+    }
+
+    .level-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .level-label {
+      color: #888;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .level-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #5b4bdb;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+    }
+
+    .level-title {
+      margin: 13px 0;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .xp-track {
+      height: 11px;
+      background: #eeeafa;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .xp-progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg,#ef704e,#f49a51);
+      border-radius: 20px;
+      transition: width 1s ease;
+    }
+
+    .xp-text {
+      display: block;
+      margin-top: 9px;
+      color: #888;
+      font-size: 11px;
+    }
+
+    /* =========================
+       MAP
+    ========================= */
+
+    .map-wrapper {
+      position: relative;
+      background:
+        linear-gradient(
+          to bottom,
+          #dff5ff 0%,
+          #dff5ff 27%,
+          #dff2d7 27%,
+          #dff2d7 100%
+        );
+
+      border-radius: 35px;
+      overflow: hidden;
+      border: 7px solid white;
+      box-shadow: 0 18px 50px rgba(30,30,60,.13);
+      padding: 40px 7% 65px;
+    }
+
+    .sun {
+      position: absolute;
+      right: 7%;
+      top: 28px;
+      font-size: 48px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .cloud {
+      position: absolute;
+      font-size: 43px;
+      opacity: .8;
+      animation: cloudMove 9s linear infinite;
+    }
+
+    .cloud.one {
+      top: 35px;
+      left: 8%;
+    }
+
+    .cloud.two {
+      top: 90px;
+      right: 28%;
+      animation-delay: 2s;
+    }
+
+    .hours-sign {
+      position: absolute;
+      top: 105px;
+      right: 5%;
+      background: #ef704e;
+      color: white;
+      padding: 13px 15px;
+      text-align: center;
+      font-size: 23px;
+      font-weight: 900;
+      line-height: .85;
+      transform: rotate(4deg);
+      border: 5px solid white;
+      border-radius: 8px;
+      box-shadow: 0 7px 16px rgba(0,0,0,.18);
+    }
+
+    .hours-sign small {
+      font-size: 9px;
+    }
+
+    /* decorative ground */
+
+    .tree {
+      position: absolute;
+      font-size: 36px;
+      opacity: .8;
+    }
+
+    .tree.t1 {
+      left: 2%;
+      top: 360px;
+    }
+
+    .tree.t2 {
+      right: 2%;
+      top: 500px;
+    }
+
+    .tree.t3 {
+      left: 3%;
+      top: 700px;
+    }
+
+    /* =========================
+       JOURNEY PATH
+    ========================= */
+
+    .path {
+      position: absolute;
+      width: 7px;
+      height: 82%;
+      left: 50%;
+      top: 130px;
+      transform: translateX(-50%);
+      border-left: 6px dashed rgba(255,255,255,.95);
+    }
+
+    /* =========================
+       MISSION
+    ========================= */
+
+    .mission {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 25px;
+      max-width: 800px;
+      margin: 65px auto;
+    }
+
+    .mission:nth-of-type(even) {
+      margin-left: 5%;
+    }
+
+    .mission:nth-of-type(odd) {
+      margin-right: 5%;
+    }
+
+    .mission-node {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: white;
+      border: 7px solid #5b4bdb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 38px;
+      box-shadow: 0 9px 20px rgba(0,0,0,.18);
+      transition: .3s;
+    }
+
+    .mission.active .mission-node {
+      animation: pulse 2s infinite;
+    }
+
+    .mission:hover .mission-node {
+      transform: scale(1.08) rotate(-4deg);
+    }
+
+    .mission-card {
+      background: white;
+      border-radius: 25px;
+      padding: 24px 27px;
+      box-shadow: 0 9px 25px rgba(0,0,0,.12);
+      transition: .3s;
+    }
+
+    .mission-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 35px rgba(0,0,0,.15);
+    }
+
+    .mission-number {
+      color: #5b4bdb;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .mission-card h2 {
+      font-size: 29px;
+      margin: 7px 0;
+    }
+
+    .mission-card p {
+      color: #686675;
+      line-height: 1.55;
+      margin: 0 0 18px;
+    }
+
+    .reward-row {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .reward {
+      padding: 8px 12px;
+      border-radius: 20px;
+      background: #fff2df;
+      color: #965c00;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .mission-button {
+      border: none;
+      background: #5b4bdb;
+      color: white;
+      padding: 14px 20px;
+      border-radius: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .25s;
+      box-shadow: 0 7px 15px rgba(91,75,219,.25);
+    }
+
+    .mission-button:hover {
+      transform: translateY(-2px);
+      background: #4b3bc4;
+    }
+
+    /* =========================
+       LOCKED
+    ========================= */
+
+    .mission.locked {
+      opacity: .72;
+      filter: saturate(.3);
+    }
+
+    .mission.locked .mission-card {
+      background: rgba(255,255,255,.85);
+    }
+
+    .lock-message {
+      display: inline-block;
+      background: #f0eef7;
+      color: #888;
+      border-radius: 20px;
+      padding: 9px 13px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       BADGES
+    ========================= */
+
+    .achievement {
+      margin-top: 35px;
+      background: white;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.07);
+    }
+
+    .achievement h2 {
+      margin: 7px 0;
+      font-size: 27px;
+    }
+
+    .achievement p {
+      color: #777;
+    }
+
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(5,1fr);
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .badge {
+      text-align: center;
+      padding: 20px 10px;
+      border-radius: 19px;
+      background: #faf9ff;
+      border: 1px solid #ebe8ff;
+      transition: .3s;
+    }
+
+    .badge:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(91,75,219,.12);
+    }
+
+    .badge-icon {
+      font-size: 32px;
+      margin-bottom: 9px;
+    }
+
+    .badge strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .badge small {
+      display: block;
+      color: #888;
+      font-size: 10px;
+      line-height: 1.3;
+      margin-top: 5px;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(20,15,40,.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 100;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-box {
+      background: white;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 30px;
+      padding: 32px;
+      position: relative;
+      box-shadow: 0 30px 80px rgba(0,0,0,.3);
+      animation: modalIn .35s ease;
+    }
+
+    .close {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      width: 35px;
+      height: 35px;
+      border: none;
+      border-radius: 50%;
+      background: #f2f0f8;
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .modal-icon {
+      font-size: 52px;
+    }
+
+    .modal-box h2 {
+      font-size: 30px;
+      margin: 8px 0;
+    }
+
+    .modal-box p {
+      color: #777;
+      line-height: 1.5;
+    }
+
+    .mission-list {
+      display: grid;
+      gap: 9px;
+      margin: 20px 0;
+    }
+
+    .mission-list div {
+      background: #f7f5ff;
+      border-radius: 13px;
+      padding: 13px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .modal-reward {
+      background: #fff3df;
+      color: #8e5800;
+      padding: 14px;
+      border-radius: 13px;
+      margin-bottom: 18px;
+      font-size: 13px;
+    }
+
+    .enter-button {
+      display: flex;
+      justify-content: center;
+      text-decoration: none;
+      background: #5b4bdb;
+      color: white;
+      padding: 15px;
+      border-radius: 13px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       ANIMATIONS
+    ========================= */
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes cloudMove {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(15px); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes pulse {
+      0%,100% {
+        box-shadow: 0 9px 20px rgba(0,0,0,.18);
+      }
+      50% {
+        box-shadow: 0 0 0 13px rgba(91,75,219,.12),
+                    0 9px 25px rgba(0,0,0,.18);
+      }
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: translateY(25px) scale(.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media(max-width:850px) {
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 40px;
+      }
+
+      .badge-grid {
+        grid-template-columns: repeat(2,1fr);
+      }
+
+      .mission,
+      .mission:nth-of-type(even),
+      .mission:nth-of-type(odd) {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .path {
+        left: 42px;
+      }
+
+      .hours-sign {
+        display: none;
+      }
+
+    }
+
+    @media(max-width:520px) {
+
+      .topbar {
+        padding: 0 14px;
+      }
+
+      .brand-sub {
+        display: none;
+      }
+
+      .stats {
+        gap: 4px;
+      }
+
+      .stat {
+        padding: 8px;
+        font-size: 10px;
+      }
+
+      .page {
+        padding: 28px 12px 60px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .map-wrapper {
+        border-radius: 25px;
+        padding: 20px 12px 45px;
+      }
+
+      .mission {
+        grid-template-columns: 55px 1fr;
+        gap: 10px;
+        margin: 45px 0;
+      }
+
+      .mission-node {
+        width: 55px;
+        height: 55px;
+        font-size: 24px;
+        border-width: 4px;
+      }
+
+      .mission-card {
+        padding: 18px;
+      }
+
+      .mission-card h2 {
+        font-size: 22px;
+      }
+
+      .mission-card p {
+        font-size: 14px;
+      }
+
+      .badge-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .achievement {
+        padding: 22px 15px;
+      }
+
+    }
+
+  </style>
 </head>
+
 <body>
-<div class="app-shell">
+
 <header class="topbar">
-  <a class="brand brand-link" href="index.html">LAHI <span>Internship Journey</span></a>
+
+  <a href="index.html" class="brand">
+
+    <div class="brand-logo">L</div>
+
+    <div>
+      <div class="brand-name">LAHI</div>
+      <span class="brand-sub">Internship Adventure</span>
+    </div>
+
+  </a>
+
   <div class="stats">
-    <div class="top-pill">⭐ <span id="xp">0</span> XP</div>
-    <div class="top-pill">🏆 <span id="badges">0</span> badges</div>
+
+    <div class="stat">
+      🔥 <b id="streak">1</b>
+    </div>
+
+    <div class="stat">
+      ⭐ <b id="xp">0</b> XP
+    </div>
+
+    <div class="stat">
+      🏆 <b id="badges">0</b>
+    </div>
+
   </div>
+
 </header>
 
-<main class="journey-wrap">
-  <section class="journey-header">
+
+<main class="page">
+
+  <!-- HERO -->
+
+  <section class="hero">
+
     <div>
-      <div class="eyebrow">🗺️ YOUR MAP</div>
-      <h1>Choose your next mission</h1>
-      <p>Complete each stage and unlock the next part of your internship journey.</p>
+
+      <div class="eyebrow">
+        🗺️ YOUR INTERNSHIP ADVENTURE
+      </div>
+
+      <h1>
+        Your internship is a
+        <span>journey.</span>
+      </h1>
+
+      <p>
+        Complete missions, collect XP and unlock new checkpoints
+        as you move from preparation to workplace learning.
+      </p>
+
     </div>
-    <div class="progress-card">
-      <div class="progress-row"><span>Journey progress</span><b id="progressText">0%</b></div>
-      <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+
+
+    <div class="level-card">
+
+      <div class="level-header">
+
+        <div class="level-label">
+          YOUR LEVEL
+        </div>
+
+        <div class="level-number" id="level">
+          1
+        </div>
+
+      </div>
+
+      <div class="level-title">
+        🌱 Curious Explorer
+      </div>
+
+      <div class="xp-track">
+
+        <div
+          class="xp-progress"
+          id="xpProgress">
+        </div>
+
+      </div>
+
+      <span class="xp-text">
+
+        <b id="xpCurrent">0</b>
+        / 100 XP to next level
+
+      </span>
+
     </div>
+
   </section>
 
-  <section class="map">
-    <a class="stage-card current" href="prepare.html" data-stage="1">
-      <div class="stage-number">01</div>
-      <div class="stage-icon">🛡️</div>
-      <div class="stage-copy"><span class="stage-tag">START HERE</span><h2>Prepare</h2><p>Understand your internship, talk to parents, confirm consent and learn safety basics.</p><b>Enter mission →</b></div>
+
+  <!-- MAP -->
+
+  <section class="map-wrapper">
+
+    <div class="sun">
+      ☀️
+    </div>
+
+    <div class="cloud one">
+      ☁️
+    </div>
+
+    <div class="cloud two">
+      ☁️
+    </div>
+
+    <div class="hours-sign">
+      80
+      <br>
+      <small>HOURS</small>
+    </div>
+
+    <div class="tree t1">
+      🌳
+    </div>
+
+    <div class="tree t2">
+      🌲
+    </div>
+
+    <div class="tree t3">
+      🌳
+    </div>
+
+
+    <div class="path"></div>
+
+
+    <!-- MISSION 1 -->
+
+    <article
+      class="mission active"
+      id="missionPrepare">
+
+      <div class="mission-node">
+        🛡️
+      </div>
+
+      <div class="mission-card">
+
+        <div class="mission-number">
+          MISSION 01
+        </div>
+
+        <h2>
+          Prepare
+        </h2>
+
+        <p>
+          Get ready before you enter the workplace.
+          Talk to your parent or guardian, confirm your
+          internship and learn the safety basics.
+        </p>
+
+        <div class="reward-row">
+
+          <span class="reward">
+            ⭐ +25 XP
+          </span>
+
+          <span class="reward">
+            🏅 Prepare Badge
+          </span>
+
+        </div>
+
+        <button
+          class="mission-button"
+          id="beginButton">
+
+          LET'S BEGIN →
+          
+        </button>
+
+      </div>
+
+    </article>
+
+
+    <!-- MISSION 2 -->
+
+    <article
+      class="mission locked"
+      id="missionExplore">
+
+      <div class="mission-node">
+        👀
+      </div>
+
+      <div class="mission-card">
+
+        <div class="mission-number">
+          MISSION 02
+        </div>
+
+        <h2>
+          Explore
+        </h2>
+
+        <p>
+          Observe the workplace.
+          Notice people, tools, machines, skills
+          and interesting things around you.
+        </p>
+
+        <div class="lock-message">
+          🔒 Complete Prepare to unlock
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- MISSION 3 -->
+
+    <article
+      class="mission locked"
+      id="missionGoals">
+
+      <div class="mission-node">
+        🎯
+      </div>
+
+      <div class="mission-card">
+
+        <div class="mission-number">
+          MISSION 03
+        </div>
+
+        <h2>
+          Set Your Goals
+        </h2>
+
+        <p>
+          Choose what you want to learn and turn
+          your internship experience into clear
+          learning goals.
+        </p>
+
+        <div class="lock-message">
+          🔒 Unlocks after Explore
+        </div>
+
+      </div>
+
+    </article>
+
+
+    <!-- MISSION 4 -->
+
+    <article
+      class="mission locked"
+      id="missionCelebrate">
+
+      <div class="mission-node">
+        🏆
+      </div>
+
+      <div class="mission-card">
+
+        <div class="mission-number">
+          MISSION 04
+        </div>
+
+        <h2>
+          Learn Better & Celebrate
+        </h2>
+
+        <p>
+          Reflect on your growth, collect learning
+          badges, complete your self-assessment
+          and explore future pathways.
+        </p>
+
+        <div class="lock-message">
+          🔒 Final checkpoint
+        </div>
+
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <!-- BADGES -->
+
+  <section class="achievement">
+
+    <div class="eyebrow">
+      🏆 ACHIEVEMENT BOARD
+    </div>
+
+    <h2>
+      Badges you can earn
+    </h2>
+
+    <p>
+      Every badge celebrates something you practised
+      during your internship.
+    </p>
+
+
+    <div class="badge-grid">
+
+      <div class="badge">
+
+        <div class="badge-icon">
+          📝
+        </div>
+
+        <strong>
+          Summarising
+        </strong>
+
+        <small>
+          Make learning easy to remember
+        </small>
+
+      </div>
+
+
+      <div class="badge">
+
+        <div class="badge-icon">
+          🧩
+        </div>
+
+        <strong>
+          Word Map
+        </strong>
+
+        <small>
+          Connect new words and ideas
+        </small>
+
+      </div>
+
+
+      <div class="badge">
+
+        <div class="badge-icon">
+          🎨
+        </div>
+
+        <strong>
+          Drawing
+        </strong>
+
+        <small>
+          Show what you noticed
+        </small>
+
+      </div>
+
+
+      <div class="badge">
+
+        <div class="badge-icon">
+          🔥
+        </div>
+
+        <strong>
+          Consistency
+        </strong>
+
+        <small>
+          Keep learning every day
+        </small>
+
+      </div>
+
+
+      <div class="badge">
+
+        <div class="badge-icon">
+          🧠
+        </div>
+
+        <strong>
+          Learn Better
+        </strong>
+
+        <small>
+          Discover your own method
+        </small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- MISSION POPUP -->
+
+<div
+  class="modal"
+  id="missionModal">
+
+  <div class="modal-box">
+
+    <button
+      class="close"
+      id="closeModal">
+      ×
+    </button>
+
+    <div class="modal-icon">
+      🛡️
+    </div>
+
+    <div class="eyebrow">
+      MISSION 01
+    </div>
+
+    <h2>
+      Prepare for your adventure
+    </h2>
+
+    <p>
+      Before you start your internship,
+      complete these four quick missions.
+    </p>
+
+
+    <div class="mission-list">
+
+      <div>
+        👨‍👩‍👧
+        Talk to your parent / guardian
+      </div>
+
+      <div>
+        ✅
+        Complete consent & confirmation
+      </div>
+
+      <div>
+        🦺
+        Know your safety basics
+      </div>
+
+      <div>
+        📍
+        Know your internship details
+      </div>
+
+    </div>
+
+
+    <div class="modal-reward">
+
+      ⭐ <b>+25 XP</b>
+      &nbsp; • &nbsp;
+      🏅 Prepare Badge
+
+    </div>
+
+
+    <a
+      href="prepare.html"
+      class="enter-button">
+
+      ENTER MISSION →
+
     </a>
 
-    <div class="connector"><span>↓</span></div>
+  </div>
 
-    <div class="stage-card locked" data-stage="2">
-      <div class="stage-number">02</div><div class="stage-icon">👀</div>
-      <div class="stage-copy"><span class="stage-tag">UNLOCKS NEXT</span><h2>Explore</h2><p>Observe the workplace, notice skills, tools, machines and interesting things.</p><b>🔒 Complete Prepare first</b></div>
-    </div>
-
-    <div class="connector"><span>↓</span></div>
-
-    <div class="stage-card locked" data-stage="3">
-      <div class="stage-number">03</div><div class="stage-icon">🎯</div>
-      <div class="stage-copy"><span class="stage-tag">YOUR MISSION</span><h2>Goals & Daily Learning</h2><p>Set four learning goals and use daily reflections to organise new knowledge.</p><b>🔒 Unlock later</b></div>
-    </div>
-
-    <div class="connector"><span>↓</span></div>
-
-    <div class="stage-card locked" data-stage="4">
-      <div class="stage-number">04</div><div class="stage-icon">🏆</div>
-      <div class="stage-copy"><span class="stage-tag">FINISH LINE</span><h2>Learn Better & Look Back</h2><p>Collect learning badges, reflect on growth, complete your self-assessment and explore future pathways.</p><b>🔒 Unlock later</b></div>
-    </div>
-  </section>
-
-  <section class="achievement-strip">
-    <div><span>🔥</span><b>Keep going!</b><small>Every completed mission earns XP.</small></div>
-    <div><span>🏆</span><b>Collect badges</b><small>Summarising · Word Map · Drawing · Consistency · Learn Better Champion</small></div>
-  </section>
-</main>
 </div>
+
+
 <script>
-function refreshStats(){
-  document.getElementById("xp").textContent=localStorage.getItem("lahiXP")||"0";
-  document.getElementById("badges").textContent=localStorage.getItem("lahiBadges")||"0";
-  const done = Number(localStorage.getItem("lahiPrepareDone")||0);
-  const pct = done ? 25 : 0;
-  document.getElementById("progressText").textContent=pct+"%";
-  document.getElementById("progressBar").style.width=pct+"%";
-  if(done){
-    const card=document.querySelector('[data-stage="2"]');
-    card.classList.remove("locked"); card.classList.add("unlocked");
-    card.innerHTML='<div class="stage-number">02</div><div class="stage-icon">👀</div><div class="stage-copy"><span class="stage-tag">UNLOCKED</span><h2>Explore</h2><p>Observe the workplace, notice skills, tools, machines and interesting things.</p><b>Next mission →</b></div>';
+
+  /* =========================
+     USER PROGRESS
+  ========================= */
+
+  let xp =
+    Number(
+      localStorage.getItem("lahiXP") || 0
+    );
+
+  let badges =
+    Number(
+      localStorage.getItem("lahiBadges") || 0
+    );
+
+
+  document.getElementById("xp")
+    .textContent = xp;
+
+  document.getElementById("badges")
+    .textContent = badges;
+
+
+  /* LEVEL */
+
+  const level =
+    Math.floor(xp / 100) + 1;
+
+  document.getElementById("level")
+    .textContent = level;
+
+
+  /* XP BAR */
+
+  const currentXP =
+    xp % 100;
+
+  document.getElementById("xpCurrent")
+    .textContent = currentXP;
+
+  document.getElementById("xpProgress")
+    .style.width =
+      currentXP + "%";
+
+
+  /* =========================
+     PREPARE COMPLETION
+  ========================= */
+
+  const prepareDone =
+    localStorage.getItem(
+      "lahiPrepareDone"
+    ) === "1";
+
+
+  if (prepareDone) {
+
+    const mission =
+      document.getElementById(
+        "missionPrepare"
+      );
+
+    mission.classList.remove("active");
+
+    mission.classList.add("completed");
+
+
+    const button =
+      mission.querySelector(
+        ".mission-button"
+      );
+
+    button.textContent =
+      "MISSION COMPLETE ✓";
+
+
+    button.onclick = function() {
+
+      window.location.href =
+        "explore.html";
+
+    };
+
+
+    /* UNLOCK EXPLORE */
+
+    const explore =
+      document.getElementById(
+        "missionExplore"
+      );
+
+    explore.classList.remove("locked");
+
+
+    explore.querySelector(
+      ".lock-message"
+    ).innerHTML =
+      "✨ READY FOR YOUR NEXT MISSION";
+
+
+    explore.querySelector(
+      ".lock-message"
+    ).style.background =
+      "#e3f7e9";
+
+    explore.querySelector(
+      ".lock-message"
+    ).style.color =
+      "#27804a";
+
+
+    explore.onclick = function() {
+
+      window.location.href =
+        "explore.html";
+
+    };
+
   }
-}
-refreshStats();
+
+
+  /* =========================
+     MISSION MODAL
+  ========================= */
+
+  const modal =
+    document.getElementById(
+      "missionModal"
+    );
+
+  const beginButton =
+    document.getElementById(
+      "beginButton"
+    );
+
+  const closeModal =
+    document.getElementById(
+      "closeModal"
+    );
+
+
+  beginButton.onclick =
+    function() {
+
+      modal.classList.add("show");
+
+    };
+
+
+  closeModal.onclick =
+    function() {
+
+      modal.classList.remove("show");
+
+    };
+
+
+  modal.onclick =
+    function(event) {
+
+      if (
+        event.target === modal
+      ) {
+
+        modal.classList.remove(
+          "show"
+        );
+
+      }
+
+    };
+
+
 </script>
+
 </body>
 </html>
