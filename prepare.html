@@ -1,8 +1,10 @@
+<!-- ==================================================
+     READY TO BEGIN
+================================================== -->
+
 <div class="start-card">
 
-  <h2>
-    🎯 Ready to Begin?
-  </h2>
+  <h2>🎯 Ready to Begin?</h2>
 
   <p>
     You have completed the preparation for your internship.
@@ -13,30 +15,10 @@
   </p>
 
   <a
-    href="journey.html"
+    href="./journey.html"
     class="start-button"
-    onclick="
-      localStorage.setItem('lahiPrepareDone', '1');
-      localStorage.setItem('lahi_mission1', 'complete');
-
-      if (localStorage.getItem('lahi_mission1_xp') !== '1') {
-        let currentXP = Number(localStorage.getItem('lahiXP') || 0);
-        localStorage.setItem('lahiXP', currentXP + 25);
-        localStorage.setItem('lahi_mission1_xp', '1');
-      }
-
-      localStorage.setItem('lahiBadges', '1');
-    ">
+    id="beginMissionButton">
     🚀 LET'S BEGIN
   </a>
 
 </div>
-
-</main>
-
-<footer>
-  Lend A Hand India • Internship Journey
-</footer>
-
-</body>
-</html>
