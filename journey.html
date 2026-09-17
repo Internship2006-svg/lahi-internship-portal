@@ -630,6 +630,29 @@
        MOBILE
     ========================= */
 
+    .locked-badge {
+      opacity: .42;
+      filter: grayscale(.8);
+      position: relative;
+    }
+    .locked-badge::after {
+      content: "🔒";
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 16px;
+    }
+    .badge.unlocked {
+      opacity: 1;
+      filter: none;
+      transform: translateY(-2px);
+    }
+    .mission2-link {
+      display: inline-block;
+      text-decoration: none;
+      margin-top: 14px;
+    }
+
     @media(max-width:850px) {
 
       .hero {
@@ -949,9 +972,13 @@
           and interesting things around you.
         </p>
 
-        <div class="lock-message">
+        <div class="lock-message" id="exploreStatus">
           🔒 Complete Prepare to unlock
         </div>
+
+        <a class="mission-button mission2-link" id="exploreButton" href="explore.html" style="display:none;text-decoration:none;">
+          START MISSION →
+        </a>
 
       </div>
 
@@ -1034,104 +1061,54 @@
 
   <section class="achievement">
 
-    <div class="eyebrow">
-      🏆 ACHIEVEMENT BOARD
-    </div>
+    <div class="eyebrow">🏆 ACHIEVEMENT BOARD</div>
 
-    <h2>
-      Badges you can earn
-    </h2>
+    <h2>Badges you can earn</h2>
 
-    <p>
-      Every badge celebrates something you practised
-      during your internship.
-    </p>
-
+    <p>Complete missions and activities to unlock badges during your internship journey.</p>
 
     <div class="badge-grid">
 
-      <div class="badge">
-
-        <div class="badge-icon">
-          📝
-        </div>
-
-        <strong>
-          Summarising
-        </strong>
-
-        <small>
-          Make learning easy to remember
-        </small>
-
+      <div class="badge" id="badgePrepare">
+        <div class="badge-icon">🎒</div>
+        <strong>Prepare Badge</strong>
+        <small>Complete Mission 1</small>
       </div>
 
-
-      <div class="badge">
-
-        <div class="badge-icon">
-          🧩
-        </div>
-
-        <strong>
-          Word Map
-        </strong>
-
-        <small>
-          Connect new words and ideas
-        </small>
-
+      <div class="badge" id="badgeSafety">
+        <div class="badge-icon">🛡️</div>
+        <strong>Safety First</strong>
+        <small>Complete your preparation checklist</small>
       </div>
 
-
-      <div class="badge">
-
-        <div class="badge-icon">
-          🎨
-        </div>
-
-        <strong>
-          Drawing
-        </strong>
-
-        <small>
-          Show what you noticed
-        </small>
-
+      <div class="badge locked-badge">
+        <div class="badge-icon">📝</div>
+        <strong>Summarising</strong>
+        <small>Make learning easy to remember</small>
       </div>
 
-
-      <div class="badge">
-
-        <div class="badge-icon">
-          🔥
-        </div>
-
-        <strong>
-          Consistency
-        </strong>
-
-        <small>
-          Keep learning every day
-        </small>
-
+      <div class="badge locked-badge">
+        <div class="badge-icon">🧩</div>
+        <strong>Word Map</strong>
+        <small>Connect new words and ideas</small>
       </div>
 
+      <div class="badge locked-badge">
+        <div class="badge-icon">🎨</div>
+        <strong>Drawing</strong>
+        <small>Show what you noticed</small>
+      </div>
 
-      <div class="badge">
+      <div class="badge locked-badge">
+        <div class="badge-icon">🔥</div>
+        <strong>Consistency</strong>
+        <small>Keep learning every day</small>
+      </div>
 
-        <div class="badge-icon">
-          🧠
-        </div>
-
-        <strong>
-          Learn Better
-        </strong>
-
-        <small>
-          Discover your own method
-        </small>
-
+      <div class="badge locked-badge">
+        <div class="badge-icon">🧠</div>
+        <strong>Learn Better</strong>
+        <small>Discover your own method</small>
       </div>
 
     </div>
@@ -1145,45 +1122,57 @@
   "use strict";
 
   var params = new URLSearchParams(window.location.search);
+
+  /* Mission 1 is completed only by submitting Prepare. */
   if (params.get("mission") === "1-complete") {
     try {
       localStorage.setItem("lahiPrepareDone", "1");
       localStorage.setItem("lahi_mission1", "complete");
+      localStorage.setItem("lahi_mission1_submitted", "1");
+
       if (localStorage.getItem("lahi_mission1_xp") !== "1") {
         var currentXP = Number(localStorage.getItem("lahiXP") || "0");
         localStorage.setItem("lahiXP", String(currentXP + 25));
         localStorage.setItem("lahi_mission1_xp", "1");
       }
-      if (localStorage.getItem("lahi_mission1_badge") !== "1") {
+
+      /* Mission 1 unlocks two visible starter badges. */
+      if (localStorage.getItem("lahi_mission1_badges") !== "1") {
         var currentBadges = Number(localStorage.getItem("lahiBadges") || "0");
-        localStorage.setItem("lahiBadges", String(currentBadges + 1));
-        localStorage.setItem("lahi_mission1_badge", "1");
+        localStorage.setItem("lahiBadges", String(currentBadges + 2));
+        localStorage.setItem("lahi_mission1_badges", "1");
       }
     } catch (e) {}
+
     window.history.replaceState({}, document.title, "journey.html");
   }
 
+  var mission1Done = localStorage.getItem("lahi_mission1") === "complete";
   var xp = Number(localStorage.getItem("lahiXP") || "0");
   var badges = Number(localStorage.getItem("lahiBadges") || "0");
-  var prepareDone = localStorage.getItem("lahiPrepareDone") === "1";
 
-  var xpElement = document.getElementById("xp");
-  var badgesElement = document.getElementById("badges");
-  var levelElement = document.getElementById("level");
-  var xpCurrentElement = document.getElementById("xpCurrent");
-  var xpProgressElement = document.getElementById("xpProgress");
+  function setText(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
 
-  if (xpElement) xpElement.textContent = xp;
-  if (badgesElement) badgesElement.textContent = badges;
-  if (levelElement) levelElement.textContent = Math.floor(xp / 100) + 1;
-  if (xpCurrentElement) xpCurrentElement.textContent = xp % 100;
-  if (xpProgressElement) xpProgressElement.style.width = (xp % 100) + "%";
+  setText("xp", xp);
+  setText("badges", badges);
+  setText("level", Math.floor(xp / 100) + 1);
+  setText("xpCurrent", xp % 100);
 
-  if (prepareDone) {
-    var missionPrepare = document.getElementById("missionPrepare");
-    var beginButton = document.getElementById("beginButton");
-    var missionExplore = document.getElementById("missionExplore");
+  var xpProgress = document.getElementById("xpProgress");
+  if (xpProgress) xpProgress.style.width = (xp % 100) + "%";
 
+  var missionPrepare = document.getElementById("missionPrepare");
+  var beginButton = document.getElementById("beginButton");
+  var missionExplore = document.getElementById("missionExplore");
+  var exploreStatus = document.getElementById("exploreStatus");
+  var exploreButton = document.getElementById("exploreButton");
+  var badgePrepare = document.getElementById("badgePrepare");
+  var badgeSafety = document.getElementById("badgeSafety");
+
+  if (mission1Done) {
     if (missionPrepare) {
       missionPrepare.classList.remove("active");
       missionPrepare.classList.add("completed");
@@ -1196,19 +1185,26 @@
 
     if (missionExplore) {
       missionExplore.classList.remove("locked");
-
-      var lockMessage = missionExplore.querySelector(".lock-message");
-      if (lockMessage) {
-        lockMessage.textContent = "✨ READY FOR YOUR NEXT MISSION";
-        lockMessage.style.background = "#e3f7e9";
-        lockMessage.style.color = "#27804a";
-      }
-
-      missionExplore.style.cursor = "pointer";
-      missionExplore.onclick = function () {
-        window.location.href = "explore.html";
-      };
+      missionExplore.style.cursor = "default";
     }
+
+    if (exploreStatus) {
+      exploreStatus.textContent = "✨ MISSION 2 UNLOCKED";
+      exploreStatus.style.background = "#e3f7e9";
+      exploreStatus.style.color = "#27804a";
+    }
+
+    if (exploreButton) {
+      exploreButton.style.display = "inline-block";
+    }
+
+    if (badgePrepare) badgePrepare.classList.add("unlocked");
+    if (badgeSafety) badgeSafety.classList.add("unlocked");
+  } else {
+    if (missionExplore) {
+      missionExplore.classList.add("locked");
+    }
+    if (exploreButton) exploreButton.style.display = "none";
   }
 })();
 </script>
