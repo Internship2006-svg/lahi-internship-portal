@@ -394,6 +394,9 @@
 
     .mission-button {
       display: inline-block;
+      position: relative;
+      z-index: 999;
+      pointer-events: auto;
       text-decoration: none;
       border: none;
       background: #5b4bdb;
@@ -1140,6 +1143,25 @@
 <script>
 (function () {
   "use strict";
+
+  var params = new URLSearchParams(window.location.search);
+  if (params.get("mission") === "1-complete") {
+    try {
+      localStorage.setItem("lahiPrepareDone", "1");
+      localStorage.setItem("lahi_mission1", "complete");
+      if (localStorage.getItem("lahi_mission1_xp") !== "1") {
+        var currentXP = Number(localStorage.getItem("lahiXP") || "0");
+        localStorage.setItem("lahiXP", String(currentXP + 25));
+        localStorage.setItem("lahi_mission1_xp", "1");
+      }
+      if (localStorage.getItem("lahi_mission1_badge") !== "1") {
+        var currentBadges = Number(localStorage.getItem("lahiBadges") || "0");
+        localStorage.setItem("lahiBadges", String(currentBadges + 1));
+        localStorage.setItem("lahi_mission1_badge", "1");
+      }
+    } catch (e) {}
+    window.history.replaceState({}, document.title, "journey.html");
+  }
 
   var xp = Number(localStorage.getItem("lahiXP") || "0");
   var badges = Number(localStorage.getItem("lahiBadges") || "0");
