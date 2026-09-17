@@ -105,6 +105,7 @@ body{
   text-decoration:none;
 }
 .start-button:hover{background:#ffb81c;transform:translateY(-2px)}
+.start-button:disabled{background:#d7dbe3;color:#7a8190;cursor:not-allowed;box-shadow:none;transform:none}
 .start-button:active{transform:translateY(0)}
 
 #status{
@@ -228,27 +229,6 @@ footer{text-align:center;padding:30px 20px;color:#718096;font-size:13px}
 </div>
 
 <div class="card">
-  <h2>📍 Know Your Internship Details</h2>
-  <p>Before your first day, make sure you know the basic details of your internship.</p>
-  <div class="checklist">
-    <label class="check-item"><input type="checkbox"><span>I know the name of my employer / workplace.</span></label>
-    <label class="check-item"><input type="checkbox"><span>I know the workplace address / location.</span></label>
-    <label class="check-item"><input type="checkbox"><span>I know my internship start date.</span></label>
-    <label class="check-item"><input type="checkbox"><span>I know my internship timings.</span></label>
-    <label class="check-item"><input type="checkbox"><span>I know who my workplace mentor / contact person is.</span></label>
-  </div>
-
-  <div class="success-box">
-    <strong>Remember:</strong><br>
-    Your employer is your workplace mentor. Try to learn as much as you can from them.
-    <br><br>
-    On your first day, introduce yourself and tell them:
-    <br><br>
-    <strong>“I am looking forward to learning from you!”</strong>
-  </div>
-</div>
-
-<div class="card">
   <h2>🛡️ Know the Safety Basics</h2>
   <p>
     Safety is one of the most important parts of your internship.
@@ -292,11 +272,11 @@ footer{text-align:center;padding:30px 20px;color:#718096;font-size:13px}
   <p>You have completed the preparation for your internship.</p>
   <p>When you are ready, click below to continue your journey.</p>
 
-  <a class="start-button" id="beginButton" href="journey.html?mission=1-complete">
-    🚀 LET'S BEGIN
-  </a>
+  <button class="start-button" id="beginButton" type="button" disabled>
+    🚀 SUBMIT &amp; START MISSION 2
+  </button>
 
-  <div id="status" aria-live="polite"></div>
+  <div id="status" aria-live="polite">Please complete all preparation checklists above.</div>
 </div>
 
 </main>
@@ -307,10 +287,47 @@ footer{text-align:center;padding:30px 20px;color:#718096;font-size:13px}
 
 <script>
 (function(){
+  "use strict";
+
   var button=document.getElementById("beginButton");
-  if(!button)return;
+  var status=document.getElementById("status");
+  var checks=Array.prototype.slice.call(document.querySelectorAll(".checklist input[type=checkbox]"));
+  var storageKey="lahi_mission1_checks_v2";
+
+  function loadChecks(){
+    var saved=[];
+    try{ saved=JSON.parse(localStorage.getItem(storageKey)||"[]"); }catch(e){}
+    checks.forEach(function(box,i){ box.checked=saved[i]===true; });
+  }
+
+  function saveChecks(){
+    try{ localStorage.setItem(storageKey,JSON.stringify(checks.map(function(box){return box.checked;}))); }catch(e){}
+  }
+
+  function updateButton(){
+    var complete=checks.length>0 && checks.every(function(box){return box.checked;});
+    button.disabled=!complete;
+    if(complete){
+      status.textContent="✓ You are ready. Submit Mission 1 to unlock Mission 2.";
+      status.style.color="#27804a";
+    }else{
+      status.textContent="Please complete all preparation checklists above.";
+      status.style.color="#718096";
+    }
+  }
+
+  checks.forEach(function(box){ box.addEventListener("change",function(){saveChecks();updateButton();}); });
+  loadChecks();
+  updateButton();
+
   button.addEventListener("click",function(){
-    try{localStorage.setItem("lahiPrepareDone","1");localStorage.setItem("lahi_mission1","complete");}catch(e){}
+    if(button.disabled)return;
+    try{
+      localStorage.setItem("lahiPrepareDone","1");
+      localStorage.setItem("lahi_mission1","complete");
+      localStorage.setItem("lahi_mission1_submitted","1");
+    }catch(e){}
+    window.location.href="journey.html?mission=1-complete";
   });
 })();
 </script>
