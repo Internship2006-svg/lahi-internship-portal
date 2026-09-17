@@ -1215,191 +1215,197 @@
 
 <script>
 
-  /* =========================
-     USER PROGRESS
-  ========================= */
+ <script>
+(function () {
 
-  let xp =
-    Number(
-      localStorage.getItem("lahiXP") || 0
-    );
+    "use strict";
 
-  let badges =
-    Number(
-      localStorage.getItem("lahiBadges") || 0
-    );
+    /* =========================
+       READ CURRENT PROGRESS
+    ========================= */
 
+    var xp = Number(localStorage.getItem("lahiXP") || "0");
+    var badges = Number(localStorage.getItem("lahiBadges") || "0");
 
-  document.getElementById("xp")
-    .textContent = xp;
+    /* =========================
+       SHOW CURRENT XP
+    ========================= */
 
-  document.getElementById("badges")
-    .textContent = badges;
+    var xpElement = document.getElementById("xp");
+    var badgesElement = document.getElementById("badges");
+    var levelElement = document.getElementById("level");
+    var xpCurrentElement = document.getElementById("xpCurrent");
+    var xpProgressElement = document.getElementById("xpProgress");
 
+    if (xpElement) {
+        xpElement.textContent = xp;
+    }
 
-  /* LEVEL */
+    if (badgesElement) {
+        badgesElement.textContent = badges;
+    }
 
-  const level =
-    Math.floor(xp / 100) + 1;
+    if (levelElement) {
+        levelElement.textContent = Math.floor(xp / 100) + 1;
+    }
 
-  document.getElementById("level")
-    .textContent = level;
+    if (xpCurrentElement) {
+        xpCurrentElement.textContent = xp % 100;
+    }
 
+    if (xpProgressElement) {
+        xpProgressElement.style.width = (xp % 100) + "%";
+    }
 
-  /* XP BAR */
 
-  const currentXP =
-    xp % 100;
+    /* =========================
+       MISSION 1 BUTTON
+    ========================= */
 
-  document.getElementById("xpCurrent")
-    .textContent = currentXP;
+    var beginButton = document.getElementById("beginButton");
 
-  document.getElementById("xpProgress")
-    .style.width =
-      currentXP + "%";
+    if (beginButton) {
 
+        beginButton.onclick = function () {
 
-  /* =========================
-     PREPARE COMPLETION
-  ========================= */
+            /* Mark Mission 1 complete */
+            localStorage.setItem(
+                "lahiPrepareDone",
+                "1"
+            );
 
-  const prepareDone =
-    localStorage.getItem(
-      "lahiPrepareDone"
-    ) === "1";
+            localStorage.setItem(
+                "lahi_mission1",
+                "complete"
+            );
 
 
-  if (prepareDone) {
+            /* Give 25 XP only once */
+            if (
+                localStorage.getItem(
+                    "lahi_mission1_xp"
+                ) !== "1"
+            ) {
 
-    const mission =
-      document.getElementById(
-        "missionPrepare"
-      );
+                var currentXP = Number(
+                    localStorage.getItem("lahiXP") || "0"
+                );
 
-    mission.classList.remove("active");
+                localStorage.setItem(
+                    "lahiXP",
+                    String(currentXP + 25)
+                );
 
-    mission.classList.add("completed");
+                localStorage.setItem(
+                    "lahi_mission1_xp",
+                    "1"
+                );
+            }
 
 
-    const button =
-      mission.querySelector(
-        ".mission-button"
-      );
+            /* Give Prepare badge only once */
+            if (
+                localStorage.getItem(
+                    "lahi_mission1_badge"
+                ) !== "1"
+            ) {
 
-    button.textContent =
-      "MISSION COMPLETE ✓";
+                var currentBadges = Number(
+                    localStorage.getItem("lahiBadges") || "0"
+                );
 
+                localStorage.setItem(
+                    "lahiBadges",
+                    String(currentBadges + 1)
+                );
 
-    button.onclick = function() {
+                localStorage.setItem(
+                    "lahi_mission1_badge",
+                    "1"
+                );
+            }
 
-      window.location.href =
-        "explore.html";
 
-    };
+            /* GO DIRECTLY TO MISSION 1 */
+            window.location.href = "prepare.html";
 
+        };
 
-    /* UNLOCK EXPLORE */
+    }
 
-    const explore =
-      document.getElementById(
-        "missionExplore"
-      );
 
-    explore.classList.remove("locked");
+    /* =========================
+       MISSION 1 ALREADY DONE
+    ========================= */
 
+    if (
+        localStorage.getItem("lahiPrepareDone") === "1"
+    ) {
 
-    explore.querySelector(
-      ".lock-message"
-    ).innerHTML =
-      "✨ READY FOR YOUR NEXT MISSION";
+        var missionPrepare =
+            document.getElementById("missionPrepare");
 
+        if (missionPrepare) {
 
-    explore.querySelector(
-      ".lock-message"
-    ).style.background =
-      "#e3f7e9";
+            missionPrepare.classList.remove("active");
+            missionPrepare.classList.add("completed");
 
-    explore.querySelector(
-      ".lock-message"
-    ).style.color =
-      "#27804a";
+        }
 
+        if (beginButton) {
 
-    explore.onclick = function() {
+            beginButton.textContent =
+                "MISSION COMPLETE ✓";
 
-      window.location.href =
-        "explore.html";
+            beginButton.onclick = function () {
 
-    };
+                window.location.href =
+                    "explore.html";
 
-  }
+            };
 
+        }
 
-  /* =========================
-     MISSION MODAL
-  ========================= */
 
-  const modal =
-    document.getElementById(
-      "missionModal"
-    );
+        /* Unlock Mission 2 */
 
-  const beginButton =
-    document.getElementById(
-      "beginButton"
-    );
+        var missionExplore =
+            document.getElementById("missionExplore");
 
-  const closeModal =
-    document.getElementById(
-      "closeModal"
-    );
+        if (missionExplore) {
 
+            missionExplore.classList.remove("locked");
 
-  beginButton.onclick =
-    function() {
+            var lockMessage =
+                missionExplore.querySelector(
+                    ".lock-message"
+                );
 
-      modal.classList.add("show");
+            if (lockMessage) {
 
-    };
+                lockMessage.innerHTML =
+                    "✨ READY FOR YOUR NEXT MISSION";
 
+                lockMessage.style.background =
+                    "#e3f7e9";
 
-  closeModal.onclick =
-    function() {
+                lockMessage.style.color =
+                    "#27804a";
 
-      modal.classList.remove("show");
+            }
 
-    };
+            missionExplore.onclick = function () {
 
+                window.location.href =
+                    "explore.html";
 
-  modal.onclick =
-    function(event) {
+            };
 
-      if (
-        event.target === modal
-      ) {
+        }
 
-        modal.classList.remove(
-          "show"
-        );
+    }
 
-      }
-
-    };
-  
-    <!-- Your existing Journey HTML content ends here -->
-
-
-    <script src="progress.js"></script>
-
-    <script>
-
-        // Your Journey page JavaScript goes here
-
-    </script>
-
-</body>
-</html>
-
+})();
 </script>
 
 </body>
