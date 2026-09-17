@@ -292,9 +292,9 @@ footer{text-align:center;padding:30px 20px;color:#718096;font-size:13px}
   <p>You have completed the preparation for your internship.</p>
   <p>When you are ready, click below to continue your journey.</p>
 
-  <button type="button" class="start-button" id="beginButton">
+  <a class="start-button" id="beginButton" href="journey.html?mission=1-complete">
     🚀 LET'S BEGIN
-  </button>
+  </a>
 
   <div id="status" aria-live="polite"></div>
 </div>
@@ -306,38 +306,11 @@ footer{text-align:center;padding:30px 20px;color:#718096;font-size:13px}
 </footer>
 
 <script>
-(function () {
-  "use strict";
-
-  var button = document.getElementById("beginButton");
-  var status = document.getElementById("status");
-
-  if (!button) {
-    return;
-  }
-
-  button.addEventListener("click", function () {
-
-    try {
-      localStorage.setItem("lahiPrepareDone", "1");
-      localStorage.setItem("lahi_mission1", "complete");
-
-      var currentXP = Number(localStorage.getItem("lahiXP") || "0");
-
-      if (localStorage.getItem("lahi_mission1_xp") !== "1") {
-        localStorage.setItem("lahiXP", String(currentXP + 25));
-        localStorage.setItem("lahi_mission1_xp", "1");
-      }
-
-      localStorage.setItem("lahiBadges", "1");
-
-    } catch (error) {
-      /* Navigation should still happen even if storage is unavailable. */
-    }
-
-    status.textContent = "Mission 1 completed. Opening your Journey…";
-
-    window.location.assign("./journey.html");
+(function(){
+  var button=document.getElementById("beginButton");
+  if(!button)return;
+  button.addEventListener("click",function(){
+    try{localStorage.setItem("lahiPrepareDone","1");localStorage.setItem("lahi_mission1","complete");}catch(e){}
   });
 })();
 </script>
