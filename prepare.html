@@ -123,6 +123,8 @@ footer{text-align:center;padding:30px 20px;color:#718096;font-size:13px}
   .card,.welcome-box{padding:20px}
   .start-button{width:100%}
 }
+.profile-card{border:2px solid #e9e5ff}.profile-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.profile-grid label{display:block;font-weight:800;font-size:13px;margin-bottom:6px}.profile-grid input,.profile-grid select{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7d9e3;border-radius:10px;font:inherit}.profile-msg{margin-top:10px;font-weight:800;color:#27804a}@media(max-width:650px){.profile-grid{grid-template-columns:1fr}}
+.lahi-confetti{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}.lahi-confetti span{position:absolute;top:-20px;font-size:22px;animation:lahiConfettiFall 1.5s ease-out forwards}.completion-next{margin:10px 0;color:#5b4bdb;font-weight:800}.completion-box{position:relative;overflow:hidden}@keyframes lahiConfettiFall{to{transform:translateY(105vh) rotate(540deg);opacity:0}}
 </style>
 </head>
 
@@ -147,6 +149,24 @@ footer{text-align:center;padding:30px 20px;color:#718096;font-size:13px}
 </section>
 
 <main class="container">
+
+
+<div class="card profile-card">
+  <h2>🪪 Your Internship Profile</h2>
+  <p>Please enter these details once. They help us connect your portal work to your student record. You will not need to enter them again in Missions 2–4.</p>
+  <div class="profile-grid">
+    <div><label>Student Name *</label><input id="studentName" required></div>
+    <div><label>Student ID *</label><input id="studentId" required></div>
+    <div><label>School Name *</label><input id="schoolName" required></div>
+    <div><label>Class *</label><select id="studentClass"><option value="">Select</option><option>XI</option><option>XII</option></select></div>
+    <div><label>State *</label><input id="stateName" required></div>
+    <div><label>Trade / Job Role *</label><input id="tradeName" required></div>
+    <div><label>Internship Organisation *</label><input id="organisationName" required></div>
+    <div><label>Internship Start Date</label><input id="startDate" type="date"></div>
+    <div><label>Internship End Date</label><input id="endDate" type="date"></div>
+  </div>
+  <div id="profileMsg" class="profile-msg"></div>
+</div>
 
 <div class="welcome-box">
   <h2>👋 Welcome to Your Internship Journey!</h2>
@@ -285,52 +305,50 @@ footer{text-align:center;padding:30px 20px;color:#718096;font-size:13px}
   Lend A Hand India • Internship Journey
 </footer>
 
-<script>
+<script src="config.js"></script><script src="app.js"></script><script>
 (function(){
   "use strict";
-
   var button=document.getElementById("beginButton");
   var status=document.getElementById("status");
   var checks=Array.prototype.slice.call(document.querySelectorAll(".checklist input[type=checkbox]"));
   var storageKey="lahi_mission1_checks_v2";
+  var fields={studentName:"",studentId:"",schoolName:"",studentClass:"",stateName:"",tradeName:"",organisationName:"",startDate:"",endDate:""};
+  var profileKeys=Object.keys(fields);
 
-  function loadChecks(){
-    var saved=[];
-    try{ saved=JSON.parse(localStorage.getItem(storageKey)||"[]"); }catch(e){}
-    checks.forEach(function(box,i){ box.checked=saved[i]===true; });
+  function loadProfile(){
+    var saved={}; try{saved=JSON.parse(localStorage.getItem("lahi_student_profile")||"{}");}catch(e){}
+    profileKeys.forEach(function(k){var el=document.getElementById(k); if(el) el.value=saved[k]||"";});
+    try{
+      var q=new URLSearchParams(location.search);
+      profileKeys.forEach(function(k){if(!document.getElementById(k).value && q.get(k))document.getElementById(k).value=q.get(k);});
+    }catch(e){}
   }
-
-  function saveChecks(){
-    try{ localStorage.setItem(storageKey,JSON.stringify(checks.map(function(box){return box.checked;}))); }catch(e){}
-  }
-
+  function profileComplete(){return profileKeys.slice(0,7).every(function(k){return document.getElementById(k).value.trim();});}
+  function saveProfile(){var p={};profileKeys.forEach(function(k){p[k]=document.getElementById(k).value.trim();});localStorage.setItem("lahi_student_profile",JSON.stringify(p));return p;}
+  function loadChecks(){var saved=[];try{saved=JSON.parse(localStorage.getItem(storageKey)||"[]");}catch(e){}checks.forEach(function(box,i){box.checked=saved[i]===true;});}
+  function saveChecks(){try{localStorage.setItem(storageKey,JSON.stringify(checks.map(function(box){return box.checked;})));}catch(e){}}
   function updateButton(){
-    var complete=checks.length>0 && checks.every(function(box){return box.checked;});
+    var complete=checks.length>0 && checks.every(function(box){return box.checked;}) && profileComplete();
     button.disabled=!complete;
-    if(complete){
-      status.textContent="✓ You are ready. Submit Mission 1 to unlock Mission 2.";
-      status.style.color="#27804a";
-    }else{
-      status.textContent="Please complete all preparation checklists above.";
-      status.style.color="#718096";
-    }
+    if(!profileComplete()){status.textContent="Complete your profile first, then finish the preparation checklist.";status.style.color="#a15c00";}
+    else if(!checks.every(function(box){return box.checked;})){status.textContent="Please complete all preparation checklists above.";status.style.color="#718096";}
+    else{status.textContent="✓ You are ready. Submit Mission 1 to unlock Mission 2.";status.style.color="#27804a";}
   }
-
-  checks.forEach(function(box){ box.addEventListener("change",function(){saveChecks();updateButton();}); });
-  loadChecks();
-  updateButton();
-
+  profileKeys.forEach(function(k){document.getElementById(k).addEventListener("input",updateButton);document.getElementById(k).addEventListener("change",updateButton);});
+  checks.forEach(function(box){box.addEventListener("change",function(){saveChecks();updateButton();});});
+  loadProfile();loadChecks();updateButton();
   button.addEventListener("click",function(){
     if(button.disabled)return;
-    try{
-      localStorage.setItem("lahiPrepareDone","1");
-      localStorage.setItem("lahi_mission1","complete");
-      localStorage.setItem("lahi_mission1_submitted","1");
-    }catch(e){}
-    window.location.href="journey.html?mission=1-complete";
+    var p=saveProfile();
+    localStorage.setItem("lahiPrepareDone","1");localStorage.setItem("lahi_mission1","complete");localStorage.setItem("lahi_mission1_submitted","1");
+    if(LAHi.addXP(25,"lahi_mission1_xp")){}
+    var newBadges=[];
+    if(LAHi.awardBadge("badge_prepare"))newBadges.push("Prepare Badge");
+    if(LAHi.awardBadge("badge_safety"))newBadges.push("Safety First");
+    LAHi.sync("mission_1_complete",{profile:p,badges:newBadges});
+    LAHi.celebrate({title:"Mission 1 complete!",text:"You are prepared, your safety checklist is done and Mission 2 is now unlocked.",xp:25,badge:newBadges.join(" + "),next:"journey.html",nextLabel:"👀 Explore is now unlocked",button:"SEE MY JOURNEY →"});
   });
-})();
-</script>
+})();</script>
 
 </body>
 </html>

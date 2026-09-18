@@ -755,7 +755,12 @@
 
     }
 
-  </style>
+  .secondary-mission-btn{margin-top:14px;background:#5b4bdf;color:#fff!important;box-shadow:0 7px 18px rgba(91,75,223,.22)}
+.secondary-mission-btn:hover{background:#4b3dc4;transform:translateY(-2px)}
+.badge.unlocked{border:2px solid #f2a900;background:#fff9eb;transform:translateY(-2px)}
+.mission.completed .mission-node{box-shadow:0 0 0 6px rgba(67,180,100,.15)}
+''.badge.unlocked{border:2px solid #f2a900;background:#fff9eb;box-shadow:0 8px 22px rgba(242,169,0,.18)}.badge.unlocked .badge-icon{filter:none}.badge.locked-badge{opacity:.42;filter:grayscale(.8)}.completion-next{margin:10px 0;color:#5b4bdb;font-weight:800}.lahi-confetti{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}.lahi-confetti span{position:absolute;top:-20px;font-size:22px;animation:lahiConfettiFall 1.5s ease-out forwards}@keyframes lahiConfettiFall{to{transform:translateY(105vh) rotate(540deg);opacity:0}}
+</style>
 </head>
 
 <body>
@@ -1011,9 +1016,10 @@
           learning goals.
         </p>
 
-        <div class="lock-message">
+        <div class="lock-message" id="goalsStatus">
           🔒 Unlocks after Explore
         </div>
+        <a class="mission-button secondary-mission-btn" id="goalsButton" href="goals.html" style="display:none;">START MISSION →</a>
 
       </div>
 
@@ -1046,9 +1052,10 @@
           and explore future pathways.
         </p>
 
-        <div class="lock-message">
+        <div class="lock-message" id="finalStatus">
           🔒 Final checkpoint
         </div>
+        <a class="mission-button secondary-mission-btn" id="finalButton" href="reflection.html" style="display:none;">START MISSION →</a>
 
       </div>
 
@@ -1081,31 +1088,43 @@
         <small>Complete your preparation checklist</small>
       </div>
 
-      <div class="badge locked-badge">
+      <div class="badge locked-badge" id="badgeExplorer">
+        <div class="badge-icon">👀</div>
+        <strong>Workplace Explorer</strong>
+        <small>Notice, ask and learn</small>
+      </div>
+
+      <div class="badge locked-badge" id="badgeGoalSetter">
+        <div class="badge-icon">🎯</div>
+        <strong>Goal Setter</strong>
+        <small>Turn observations into goals</small>
+      </div>
+
+      <div class="badge locked-badge" id="badgeSummarising">
         <div class="badge-icon">📝</div>
         <strong>Summarising</strong>
         <small>Make learning easy to remember</small>
       </div>
 
-      <div class="badge locked-badge">
+      <div class="badge locked-badge" id="badgeWordMap">
         <div class="badge-icon">🧩</div>
         <strong>Word Map</strong>
         <small>Connect new words and ideas</small>
       </div>
 
-      <div class="badge locked-badge">
+      <div class="badge locked-badge" id="badgeDrawing">
         <div class="badge-icon">🎨</div>
         <strong>Drawing</strong>
         <small>Show what you noticed</small>
       </div>
 
-      <div class="badge locked-badge">
+      <div class="badge locked-badge" id="badgeConsistency">
         <div class="badge-icon">🔥</div>
         <strong>Consistency</strong>
         <small>Keep learning every day</small>
       </div>
 
-      <div class="badge locked-badge">
+      <div class="badge locked-badge" id="badgeLearnBetter">
         <div class="badge-icon">🧠</div>
         <strong>Learn Better</strong>
         <small>Discover your own method</small>
@@ -1117,95 +1136,17 @@
 
 </main>
 
-<script>
-(function () {
+<script src="config.js"></script><script src="app.js"></script><script>
+(function(){
   "use strict";
-
-  var params = new URLSearchParams(window.location.search);
-
-  /* Mission 1 is completed only by submitting Prepare. */
-  if (params.get("mission") === "1-complete") {
-    try {
-      localStorage.setItem("lahiPrepareDone", "1");
-      localStorage.setItem("lahi_mission1", "complete");
-      localStorage.setItem("lahi_mission1_submitted", "1");
-
-      if (localStorage.getItem("lahi_mission1_xp") !== "1") {
-        var currentXP = Number(localStorage.getItem("lahiXP") || "0");
-        localStorage.setItem("lahiXP", String(currentXP + 25));
-        localStorage.setItem("lahi_mission1_xp", "1");
-      }
-
-      /* Mission 1 unlocks two visible starter badges. */
-      if (localStorage.getItem("lahi_mission1_badges") !== "1") {
-        var currentBadges = Number(localStorage.getItem("lahiBadges") || "0");
-        localStorage.setItem("lahiBadges", String(currentBadges + 2));
-        localStorage.setItem("lahi_mission1_badges", "1");
-      }
-    } catch (e) {}
-
-    window.history.replaceState({}, document.title, "journey.html");
-  }
-
-  var mission1Done = localStorage.getItem("lahi_mission1") === "complete";
-  var xp = Number(localStorage.getItem("lahiXP") || "0");
-  var badges = Number(localStorage.getItem("lahiBadges") || "0");
-
-  function setText(id, value) {
-    var el = document.getElementById(id);
-    if (el) el.textContent = value;
-  }
-
-  setText("xp", xp);
-  setText("badges", badges);
-  setText("level", Math.floor(xp / 100) + 1);
-  setText("xpCurrent", xp % 100);
-
-  var xpProgress = document.getElementById("xpProgress");
-  if (xpProgress) xpProgress.style.width = (xp % 100) + "%";
-
-  var missionPrepare = document.getElementById("missionPrepare");
-  var beginButton = document.getElementById("beginButton");
-  var missionExplore = document.getElementById("missionExplore");
-  var exploreStatus = document.getElementById("exploreStatus");
-  var exploreButton = document.getElementById("exploreButton");
-  var badgePrepare = document.getElementById("badgePrepare");
-  var badgeSafety = document.getElementById("badgeSafety");
-
-  if (mission1Done) {
-    if (missionPrepare) {
-      missionPrepare.classList.remove("active");
-      missionPrepare.classList.add("completed");
-    }
-
-    if (beginButton) {
-      beginButton.textContent = "MISSION COMPLETE ✓";
-      beginButton.setAttribute("href", "explore.html");
-    }
-
-    if (missionExplore) {
-      missionExplore.classList.remove("locked");
-      missionExplore.style.cursor = "default";
-    }
-
-    if (exploreStatus) {
-      exploreStatus.textContent = "✨ MISSION 2 UNLOCKED";
-      exploreStatus.style.background = "#e3f7e9";
-      exploreStatus.style.color = "#27804a";
-    }
-
-    if (exploreButton) {
-      exploreButton.style.display = "inline-block";
-    }
-
-    if (badgePrepare) badgePrepare.classList.add("unlocked");
-    if (badgeSafety) badgeSafety.classList.add("unlocked");
-  } else {
-    if (missionExplore) {
-      missionExplore.classList.add("locked");
-    }
-    if (exploreButton) exploreButton.style.display = "none";
-  }
+  function n(k){return Number(localStorage.getItem(k)||"0")||0;} function done(k){return localStorage.getItem(k)==="complete"||localStorage.getItem(k)==="1";} function set(id,v){var e=document.getElementById(id);if(e)e.textContent=v;} function show(id){var e=document.getElementById(id);if(e)e.style.display="inline-block";} function unlock(id){var e=document.getElementById(id);if(e){e.classList.remove("locked-badge");e.classList.add("unlocked");}} function ready(id,t){var e=document.getElementById(id);if(e){e.textContent=t;e.style.background="#e3f7e9";e.style.color="#27804a";}}
+  var xp=n("lahiXP");set("xp",xp);set("badges",n("lahiBadges"));set("level",Math.floor(xp/100)+1);set("xpCurrent",xp%100);var bar=document.getElementById("xpProgress");if(bar)bar.style.width=(xp%100)+"%";
+  var m1=done("lahi_mission1"),m2=done("lahi_mission2"),m3=done("lahi_mission3"),m4=done("lahi_mission4");
+  if(m1){var b=document.getElementById("beginButton");if(b){b.textContent="MISSION COMPLETE ✓";b.setAttribute("href","explore.html");}var mp=document.getElementById("missionPrepare");if(mp){mp.classList.remove("active");mp.classList.add("completed");}var me=document.getElementById("missionExplore");if(me)me.classList.remove("locked");ready("exploreStatus","✨ MISSION 2 UNLOCKED");show("exploreButton");unlock("badgePrepare");unlock("badgeSafety");}
+  if(m2){var me2=document.getElementById("missionExplore");if(me2)me2.classList.add("completed");ready("exploreStatus","✓ MISSION 2 COMPLETED");var gs=document.getElementById("missionGoals");if(gs)gs.classList.remove("locked");ready("goalsStatus","✨ MISSION 3 UNLOCKED");show("goalsButton");unlock("badgeExplorer");}
+  if(m3){var gs2=document.getElementById("missionGoals");if(gs2)gs2.classList.add("completed");ready("goalsStatus","✓ MISSION 3 COMPLETED");var fin=document.getElementById("missionCelebrate");if(fin)fin.classList.remove("locked");ready("finalStatus","✨ MISSION 4 UNLOCKED");show("finalButton");unlock("badgeGoalSetter");}
+  if(m4){var f=document.getElementById("missionCelebrate");if(f)f.classList.add("completed");ready("finalStatus","🏆 JOURNEY COMPLETED");}
+  if(done("badge_prepare"))unlock("badgePrepare");if(done("badge_safety"))unlock("badgeSafety");if(done("badge_explorer"))unlock("badgeExplorer");if(done("badge_goalsetter"))unlock("badgeGoalSetter");if(done("badge_summarising"))unlock("badgeSummarising");if(done("badge_wordmap"))unlock("badgeWordMap");if(done("badge_drawing"))unlock("badgeDrawing");if(done("badge_consistency"))unlock("badgeConsistency");if(done("badge_learnbetter"))unlock("badgeLearnBetter");
 })();
 </script>
 

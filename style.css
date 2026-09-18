@@ -254,3 +254,17 @@ body {
   .quick-grid { grid-template-columns: 1fr; }
   .hero-art { min-height: 310px; }
 }
+
+/* Gamified completion message */
+.completion-overlay{position:fixed;inset:0;background:rgba(35,31,68,.62);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:20px;z-index:99999;opacity:0;visibility:hidden;transition:.22s}
+.completion-overlay.show{opacity:1;visibility:visible}
+.completion-box{width:min(520px,100%);background:#fff;border-radius:28px;padding:36px 28px;text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.25);transform:translateY(18px) scale(.97);transition:.25s}
+.completion-overlay.show .completion-box{transform:translateY(0) scale(1)}
+.celebrate-burst{font-size:58px;animation:bounceCelebrate .8s ease}
+.completion-kicker{font-size:12px;letter-spacing:1.5px;font-weight:900;color:#5b4bdf;margin-top:8px}
+.completion-box h2{font-size:34px;margin:8px 0;color:#292744}
+.completion-box p{color:#6e6a7f;line-height:1.6;margin:0 auto 22px;max-width:400px}
+.completion-reward{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.completion-reward span{background:#fff4dc;color:#9b6100;border-radius:999px;padding:10px 15px;font-weight:900}
+.completion-btn{border:0;background:#5b4bdf;color:#fff;padding:14px 25px;border-radius:14px;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 8px 20px rgba(91,75,223,.25)}
+@keyframes bounceCelebrate{0%{transform:scale(.5) rotate(-8deg);opacity:0}70%{transform:scale(1.12) rotate(4deg)}100%{transform:scale(1)}}
