@@ -1,6 +1,98 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mission 3 – Set Your Goals</title><link rel="stylesheet" href="style.css"><style>
-body{margin:0;font-family:Arial,sans-serif;background:#f4f6fb;color:#292744}.nav{background:#fff;padding:12px 22px;display:flex;gap:10px;align-items:center;box-shadow:0 2px 10px #0001;position:sticky;top:0;z-index:10}.nav a,.nav button{border:0;background:#f1f3f9;padding:9px 13px;border-radius:9px;color:#302b55;text-decoration:none;font-weight:700}.logo{margin-right:auto;font-weight:900;color:#5b4bdf}.hero{background:linear-gradient(135deg,#6755ee,#8b7cff);color:#fff;padding:44px 20px}.hero>div,main{max-width:900px;margin:auto}.hero h1{font-size:38px;margin:10px 0}.hero p{font-size:17px;line-height:1.6}.container{padding:28px 20px 60px}.tip,.goal,.finish{background:#fff;border-radius:20px;padding:24px;margin:16px 0;box-shadow:0 7px 24px #0000000a}.tip{background:#fff9eb;border-left:5px solid #f2a900}.goal h2{margin-top:0;color:#5b4bdf}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;font-weight:800;font-size:13px;margin-bottom:6px}.field input,.field textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7d9e3;border-radius:10px;font:inherit}.field textarea{min-height:80px;resize:vertical}.subgoals{display:grid;grid-template-columns:1fr 1fr;gap:10px}.subgoals div{background:#f7f7fb;padding:10px;border-radius:10px}.primary{border:0;background:#5b4bdf;color:#fff;border-radius:14px;padding:15px 28px;font-weight:900;font-size:16px;cursor:pointer}.msg{font-weight:800;margin-top:10px;color:#27804a}@media(max-width:650px){.grid2,.subgoals{grid-template-columns:1fr}.hero h1{font-size:30px}}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6fb;color:#292744}.nav{background:#fff;padding:12px 22px;display:flex;gap:10px;align-items:center;box-shadow:0 2px 10px #0001;position:sticky;top:0;z-index:10}.nav a,.nav button{border:0;background:#f1f3f9;padding:9px 13px;border-radius:9px;color:#302b55;text-decoration:none;font-weight:700}.logo{margin-right:auto;font-weight:900;color:#5b4bdf}.hero{background:linear-gradient(135deg,#6755ee,#8b7cff);color:#fff;padding:44px 20px}.hero>div,main{max-width:900px;margin:auto}.hero h1{font-size:38px;margin:10px 0}.hero p{font-size:17px;line-height:1.6}.container{padding:28px 20px 60px}.tip,.goal,.finish{background:#fff;border-radius:20px;padding:24px;margin:16px 0;box-shadow:0 7px 24px #0000000a}.tip{background:#fff9eb;border-left:5px solid #f2a900}.goal h2{margin-top:0;color:#5b4bdf}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;font-weight:800;font-size:13px;margin-bottom:6px}.field input,.field textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7d9e3;border-radius:10px;font:inherit}.field textarea{min-height:80px;resize:vertical}.subgoals{display:grid;grid-template-columns:1fr 1fr;gap:10px}.subgoals div{background:#f7f7fb;padding:10px;border-radius:10px}.primary{border:0;background:#5b4bdf;color:#fff;border-radius:14px;padding:15px 28px;font-weight:900;font-size:16px;cursor:pointer}.goal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.draft-button,.reset-button,.edit-button{border:1px solid #d8d9e5;background:#fff;color:#4d42bb;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer}.draft-button{background:#fff7e8;color:#9a6410;border-color:#f0d49c}.reset-button{background:#fff7f7;color:#9b3c3c;border-color:#f0caca}.edit-button{background:#f4f1ff}.edit-locked textarea,.edit-locked input{background:#f7f7fa;color:#666}.msg{font-weight:800;margin-top:10px;color:#27804a}@media(max-width:650px){.grid2,.subgoals{grid-template-columns:1fr}.hero h1{font-size:30px}}
 .completion-next{margin:10px 0;color:#5b4bdb;font-weight:800}.lahi-confetti{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}.lahi-confetti span{position:absolute;top:-20px;font-size:22px;animation:lahiConfettiFall 1.5s ease-out forwards}@keyframes lahiConfettiFall{to{transform:translateY(105vh) rotate(540deg);opacity:0}}
-</style></head><body><nav class="nav"><div class="logo">LAHI Internship</div><a href="index.html">🏠 Home</a><a href="journey.html">🗺️ My Journey</a><button onclick="history.back()">← Back</button></nav><section class="hero"><div><b>MISSION 3 • SETTING YOUR INTERNSHIP GOALS</b><h1>🎯 Turn observations into goals</h1><p>Think about what you noticed in Explore. Choose 4 skills you want to learn, why they matter and how you will know you are improving.</p></div></section><main class="container"><div class="tip"><b>💡 A good goal tells you:</b><br>What you want to learn • Why it matters • How you will track your progress.<br><br>Discuss your trade-specific goals with your Vocational Trainer and Employer.</div><div id="goals"></div><div class="goal"><h2>🤝 Discuss with your trainer & employer</h2><div class="field"><label>What feedback did I receive?</label><textarea id="discussion"></textarea></div></div><div class="finish"><h2>🚀 Ready to submit your goals?</h2><p>Complete all 4 goals before submitting.</p><button class="primary" id="submit">COMPLETE MISSION 3</button><div id="msg" class="msg"></div></div></main><div id="completionOverlay" class="completion-overlay"><div class="completion-box"><div class="celebrate-burst">🎯</div><div class="completion-kicker">MISSION COMPLETE</div><h2 id="completionTitle"></h2><p id="completionText"></p><div class="completion-reward"><span id="completionXP"></span><span id="completionBadge"></span></div><div class="completion-next" id="completionNext"></div><button id="completionContinue" class="completion-btn">CONTINUE →</button></div></div><script src="config.js"></script><script src="app.js"></script><script>
+</style></head><body><nav class="nav"><div class="logo">LAHI Internship</div><a href="index.html">🏠 Home</a><a href="journey.html">🗺️ My Journey</a><button onclick="history.back()">← Back</button></nav><section class="hero"><div><b>MISSION 3 • SETTING YOUR INTERNSHIP GOALS</b><h1>🎯 Turn observations into goals</h1><p>Think about what you noticed in Explore. Choose 4 skills you want to learn, why they matter and how you will know you are improving.</p></div></section><main class="container"><div class="tip"><b>💡 A good goal tells you:</b><br>What you want to learn • Why it matters • How you will track your progress.<br><br>Discuss your trade-specific goals with your Vocational Trainer and Employer.</div><div id="goals"></div><div class="goal"><h2>🤝 Discuss with your trainer & employer</h2><div class="field"><label>What feedback did I receive?</label><textarea id="discussion"></textarea></div></div><div class="finish"><h2>🚀 Ready to submit your goals?</h2><p>Complete all 4 goals before submitting. You can save your work as a draft and edit it later.</p><div class="goal-actions"><button class="draft-button" type="button" id="saveDraft">📝 SAVE AS DRAFT</button><button class="reset-button" type="button" id="resetGoals">↺ RESET</button><button class="edit-button" type="button" id="editGoals" style="display:none">✏️ EDIT MY GOALS</button><button class="primary" id="submit">COMPLETE MISSION 3</button></div><div id="msg" class="msg"></div></div></main><div id="completionOverlay" class="completion-overlay"><div class="completion-box"><div class="celebrate-burst">🎯</div><div class="completion-kicker">MISSION COMPLETE</div><h2 id="completionTitle"></h2><p id="completionText"></p><div class="completion-reward"><span id="completionXP"></span><span id="completionBadge"></span></div><div class="completion-next" id="completionNext"></div><button id="completionContinue" class="completion-btn">CONTINUE →</button></div></div><script src="config.js"></script><script src="app.js"></script><script>
 (function(){
-if(localStorage.getItem("lahi_mission2")!=="complete"){window.location.href="journey.html";return;}var wrap=document.getElementById('goals');for(var i=1;i<=4;i++){wrap.insertAdjacentHTML('beforeend','<section class="goal"><h2>🎯 Goal #'+i+'</h2><div class="grid2"><div class="field"><label>What specific skill do you want to learn?</label><textarea id="g'+i+'a"></textarea></div><div class="field"><label>Why is this important to you?</label><textarea id="g'+i+'b"></textarea></div></div><div class="field" style="margin-top:14px"><label>How will you know you are making progress?</label><textarea id="g'+i+'c"></textarea></div><p><b>Break your goal into 4 sub-goals</b></p><div class="subgoals">'+[1,2,3,4].map(function(j){return '<div><label>Sub-goal '+j+'</label><input id="g'+i+'s'+j+'"></div>'}).join('')+'</div></section>')}function load(){try{var o=JSON.parse(localStorage.getItem('lahi_goals_data')||'{}');for(var i=1;i<=4;i++){['a','b','c'].forEach(function(x){if(o['g'+i+x]!=null)document.getElementById('g'+i+x).value=o['g'+i+x]});for(var j=1;j<=4;j++){if(o['g'+i+'s'+j]!=null)document.getElementById('g'+i+'s'+j).value=o['g'+i+'s'+j]}}if(o.discussion)document.getElementById('discussion').value=o.discussion}catch(e){}}function save(){var o={discussion:document.getElementById('discussion').value};for(var i=1;i<=4;i++){['a','b','c'].forEach(function(x){o['g'+i+x]=document.getElementById('g'+i+x).value});for(var j=1;j<=4;j++)o['g'+i+'s'+j]=document.getElementById('g'+i+'s'+j).value}localStorage.setItem('lahi_goals_data',JSON.stringify(o));return o}function submit(){var o=save(),good=true;for(var i=1;i<=4;i++){['a','b','c'].forEach(function(x){if(!o['g'+i+x].trim())good=false});for(var j=1;j<=4;j++)if(!o['g'+i+'s'+j].trim())good=false}if(!good){document.getElementById('msg').textContent='Please complete every part of all 4 goals.';return}if(localStorage.getItem('lahi_mission3')!=='complete'){localStorage.setItem('lahi_mission3','complete');LAHi.addXP(40,'lahi_mission3_xp');var got=LAHi.awardBadge('badge_goalsetter');LAHi.sync('mission_3_complete',{newBadge:got?'Goal Setter':''});LAHi.celebrate({title:'Mission 3 complete!',text:'You turned your workplace observations into four clear learning goals and practical sub-goals.',xp:40,badge:got?'Goal Setter':'',next:'journey.html',nextLabel:'🧠 Learn Better is now unlocked',button:'SEE MY JOURNEY →'});}else window.location.href='journey.html'}load();document.getElementById('submit').onclick=submit})();</script></body></html>
+if(localStorage.getItem("lahi_mission2")!=="complete"){window.location.href="journey.html";return;}
+
+var wrap=document.getElementById('goals');
+for(var i=1;i<=4;i++){
+  wrap.insertAdjacentHTML('beforeend','<section class="goal"><h2>🎯 Goal #'+i+'</h2><div class="grid2"><div class="field"><label>What specific skill do you want to learn?</label><textarea id="g'+i+'a"></textarea></div><div class="field"><label>Why is this important to you?</label><textarea id="g'+i+'b"></textarea></div></div><div class="field" style="margin-top:14px"><label>How will you know you are making progress?</label><textarea id="g'+i+'c"></textarea></div><p><b>Break your goal into 4 sub-goals</b></p><div class="subgoals">'+[1,2,3,4].map(function(j){return '<div><label>Sub-goal '+j+'</label><input id="g'+i+'s'+j+'"></div>'}).join('')+'</div></section>');
+}
+
+var fieldIds=[];
+for(var gi=1;gi<=4;gi++){
+  ['a','b','c'].forEach(function(x){fieldIds.push('g'+gi+x);});
+  for(var gj=1;gj<=4;gj++) fieldIds.push('g'+gi+'s'+gj);
+}
+fieldIds.push('discussion');
+
+function collect(){
+  var o={discussion:document.getElementById('discussion').value};
+  for(var i=1;i<=4;i++){
+    ['a','b','c'].forEach(function(x){o['g'+i+x]=document.getElementById('g'+i+x).value});
+    for(var j=1;j<=4;j++)o['g'+i+'s'+j]=document.getElementById('g'+i+'s'+j).value;
+  }
+  return o;
+}
+function fill(o){
+  for(var i=1;i<=4;i++){
+    ['a','b','c'].forEach(function(x){document.getElementById('g'+i+x).value=o['g'+i+x]||''});
+    for(var j=1;j<=4;j++)document.getElementById('g'+i+'s'+j).value=o['g'+i+'s'+j]||'';
+  }
+  document.getElementById('discussion').value=o.discussion||'';
+}
+function readStored(key){try{return JSON.parse(localStorage.getItem(key)||'null')}catch(e){return null}}
+function saveData(){var o=collect();localStorage.setItem('lahi_goals_data',JSON.stringify(o));return o}
+function setEditable(editable){
+  fieldIds.forEach(function(id){var el=document.getElementById(id);if(el){el.readOnly=!editable;el.disabled=false;}});
+  document.querySelectorAll('.goal').forEach(function(card){card.classList.toggle('edit-locked',!editable);});
+  document.getElementById('editGoals').style.display=editable?'none':'inline-block';
+  document.getElementById('saveDraft').style.display=editable?'inline-block':'none';
+  document.getElementById('resetGoals').style.display=editable?'inline-block':'none';
+  document.getElementById('submit').style.display=editable?'inline-block':'none';
+}
+function load(){
+  var finalData=readStored('lahi_goals_data')||{};
+  var draft=readStored('lahi_goals_draft');
+  fill(Object.keys(finalData).length?finalData:(draft||{}));
+  if(localStorage.getItem('lahi_mission3')==='complete') setEditable(false);
+  else setEditable(true);
+}
+function saveDraft(){
+  localStorage.setItem('lahi_goals_draft',JSON.stringify(collect()));
+  document.getElementById('msg').textContent='✓ Draft saved on this device. You can come back and continue later.';
+  LAHi.sync('mission_3_draft',{goals:collect(),status:'draft'});
+}
+function resetGoals(){
+  if(!confirm('Reset your current goal entries? Your last saved goals will be kept.')) return;
+  var saved=readStored('lahi_goals_data');
+  if(saved){fill(saved);document.getElementById('msg').textContent='↺ Last saved goals restored. You can edit them and save again.';}
+  else{fill({});document.getElementById('msg').textContent='↺ Goal fields reset.';}
+  localStorage.removeItem('lahi_goals_draft');
+}
+function editGoals(){
+  setEditable(true);
+  document.getElementById('msg').textContent='✏️ Edit mode is on. Correct any sentence and save again.';
+  document.getElementById('g1a').focus();
+}
+function submit(){
+  var o=collect(),good=true;
+  for(var i=1;i<=4;i++){
+    ['a','b','c'].forEach(function(x){if(!o['g'+i+x].trim())good=false});
+    for(var j=1;j<=4;j++)if(!o['g'+i+'s'+j].trim())good=false;
+  }
+  if(!good){document.getElementById('msg').textContent='Please complete every part of all 4 goals.';return}
+  localStorage.setItem('lahi_goals_data',JSON.stringify(o));
+  localStorage.removeItem('lahi_goals_draft');
+  if(localStorage.getItem('lahi_mission3')!=='complete'){
+    localStorage.setItem('lahi_mission3','complete');
+    LAHi.addXP(40,'lahi_mission3_xp');
+    var got=LAHi.awardBadge('badge_goalsetter');
+    LAHi.sync('mission_3_complete',{newBadge:got?'Goal Setter':''});
+    LAHi.celebrate({title:'Mission 3 complete!',text:'You turned your workplace observations into four clear learning goals and practical sub-goals.',xp:40,badge:got?'Goal Setter':'',next:'journey.html',nextLabel:'🧠 Learn Better is now unlocked',button:'SEE MY JOURNEY →'});
+    setEditable(false);
+  }else{
+    document.getElementById('msg').textContent='✓ Goals updated. Your Mission 3 completion is unchanged.';
+    setEditable(false);
+    LAHi.sync('mission_3_goals_updated',{goals:o,status:'updated'});
+  }
+}
+
+document.getElementById('saveDraft').onclick=saveDraft;
+document.getElementById('resetGoals').onclick=resetGoals;
+document.getElementById('editGoals').onclick=editGoals;
+document.getElementById('submit').onclick=submit;
+load();
+})();
+</script></body></html>
