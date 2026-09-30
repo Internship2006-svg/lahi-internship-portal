@@ -338,6 +338,35 @@ body{
     width:100%;
   }
 }
+
+.reflection-toolbar{
+  display:flex;
+  gap:12px;
+  align-items:end;
+  flex-wrap:wrap;
+  background:#f8f7ff;
+  border:1px solid #e8e5fb;
+  border-radius:16px;
+  padding:16px;
+  margin:16px 0;
+}
+.reflection-toolbar .date-field{
+  min-width:230px;
+  flex:1;
+}
+.date-field label{display:block;font-weight:800;font-size:13px;margin-bottom:6px}
+.date-field input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7d9e3;border-radius:10px;font:inherit;background:#fff}
+.plus-button{border:0;background:#5b4bdf;color:#fff;border-radius:12px;padding:12px 18px;font-weight:900;font-size:15px;cursor:pointer}
+.plus-button:hover{background:#4b3bc4}
+.reflection-card{border:1px solid #e5e3ef;border-radius:18px;padding:18px;margin:14px 0;background:#fff}
+.reflection-card.saved{border-color:#bfe7cc;background:#fbfffc}
+.reflection-card h3{margin:0 0 14px;color:#4d42bb}
+.reflection-date{font-size:12px;color:#777;font-weight:700}
+.sync-status{font-size:12px;font-weight:800;color:#666;margin-top:8px}
+.sync-status.ok{color:#27804a}
+.sync-status.warn{color:#a66a00}
+.empty-reflections{padding:22px;text-align:center;background:#faf9ff;border-radius:14px;color:#777}
+@media(max-width:700px){.reflection-toolbar{align-items:stretch}.plus-button{width:100%}}
 </style>
 </head>
 
@@ -376,8 +405,19 @@ body{
   <section class="section">
     <h2>📖 Daily Reflection</h2>
     <p class="small">
-      Use your goals and sub-goals to guide your reflections. Be honest and specific.
+      Choose the actual internship date from the calendar, click <b>+</b>, and add your reflection for that day.
+      You can come back later and edit a saved reflection.
     </p>
+
+    <div class="reflection-toolbar">
+      <div class="date-field">
+        <label for="reflectionDate">📅 Internship Date</label>
+        <input type="date" id="reflectionDate">
+      </div>
+      <button type="button" class="plus-button" id="addReflectionBtn">＋ ADD DAILY REFLECTION</button>
+    </div>
+
+    <div id="reflectionSyncStatus" class="sync-status"></div>
     <div id="days"></div>
   </section>
 
@@ -608,7 +648,7 @@ body{
 
 </main>
 
-<div id="completionOverlay" class="completion-overlay lahi-completion-overlay">
+<div id="completionOverlay" class="completion-overlay">
   <div class="completion-box">
     <div class="celebrate-burst">🏆</div>
     <div class="completion-kicker">JOURNEY COMPLETE</div>
@@ -638,33 +678,75 @@ body{
   }
 
   var days=document.getElementById("days");
+  var dateInput=document.getElementById("reflectionDate");
+  var addReflectionBtn=document.getElementById("addReflectionBtn");
+  var today=new Date();
+  dateInput.value=today.getFullYear()+"-"+String(today.getMonth()+1).padStart(2,"0")+"-"+String(today.getDate()).padStart(2,"0");
 
-  for(var d=1;d<=15;d++){
-    days.insertAdjacentHTML(
-      "beforeend",
-      '<div class="day">'+
-        '<h3>Day '+d+'</h3>'+
-        '<div class="grid2">'+
-          '<div class="field">'+
-            '<label>What happened today?</label>'+
-            '<textarea id="d'+d+'a"></textarea>'+
-          '</div>'+
-          '<div class="field">'+
-            '<label>What did I learn?</label>'+
-            '<textarea id="d'+d+'b"></textarea>'+
-          '</div>'+
-        '</div>'+
-        '<div class="field" style="margin-top:10px">'+
-          '<label>Why is this important?</label>'+
-          '<textarea id="d'+d+'c"></textarea>'+
-        '</div>'+
-        '<div class="row">'+
-          '<button class="save" onclick="saveDay('+d+')">💾 Save Day '+d+'</button>'+
-          '<span id="day'+d+'msg" class="msg"></span>'+
-        '</div>'+
-      '</div>'
-    );
+  function reflectionKey(date){
+    return "lahi_reflection_date_"+date;
   }
+
+  function getReflectionDates(){
+    var dates=[];
+    for(var i=0;i<localStorage.length;i++){
+      var key=localStorage.key(i)||"";
+      if(key.indexOf("lahi_reflection_date_")===0){
+        dates.push(key.replace("lahi_reflection_date_",""));
+      }
+    }
+    dates.sort();
+    return dates;
+  }
+
+  function renderEmpty(){
+    if(!getReflectionDates().length){
+      days.innerHTML='<div class="empty-reflections">📅 No daily reflections yet.<br>Choose a date above and click <b>＋ ADD DAILY REFLECTION</b>.</div>';
+    }
+  }
+
+  function renderReflection(date){
+    var key=reflectionKey(date);
+    var existing=null;
+    try{existing=JSON.parse(localStorage.getItem(key)||"null");}catch(e){}
+    var card=document.getElementById("reflection_"+date);
+    if(!card){
+      card=document.createElement("div");
+      card.className="reflection-card";
+      card.id="reflection_"+date;
+      days.appendChild(card);
+    }
+    card.innerHTML=
+      '<h3>📅 '+date.split("-").reverse().join("-")+' <span class="reflection-date">(actual internship date)</span></h3>'+
+      '<div class="grid2">'+
+        '<div class="field"><label>What happened today?</label><textarea id="ra_'+date+'">'+((existing&&existing.a)||"")+'</textarea></div>'+
+        '<div class="field"><label>What did I learn?</label><textarea id="rb_'+date+'">'+((existing&&existing.b)||"")+'</textarea></div>'+
+      '</div>'+
+      '<div class="field" style="margin-top:10px"><label>Why is this important?</label><textarea id="rc_'+date+'">'+((existing&&existing.c)||"")+'</textarea></div>'+
+      '<div class="row" style="margin-top:10px">'+
+        '<button class="save" type="button" onclick="saveReflection(\''+date+'\')">💾 SAVE '+date.split("-").reverse().join("-")+'</button>'+
+        '<span id="msg_'+date+'" class="msg"></span>'+
+      '</div>'+
+      '<div id="sync_'+date+'" class="sync-status"></div>';
+  }
+
+  function renderAll(){
+    days.innerHTML="";
+    var dates=getReflectionDates();
+    if(!dates.length){renderEmpty();return;}
+    dates.forEach(renderReflection);
+  }
+
+  addReflectionBtn.addEventListener("click",function(){
+    var date=dateInput.value;
+    if(!date){alert("Please select the internship date first.");return;}
+    if(!document.getElementById("reflection_"+date)){
+      renderReflection(date);
+      document.getElementById("reflection_"+date).scrollIntoView({behavior:"smooth",block:"center"});
+    }else{
+      document.getElementById("reflection_"+date).scrollIntoView({behavior:"smooth",block:"center"});
+    }
+  });
 
   var skills=[
     "Communication Skills",
@@ -721,13 +803,7 @@ body{
 
   function reflections(){
     var o={};
-
-    for(var d=1;d<=15;d++){
-      if(localStorage.getItem("lahi_reflection_"+d)){
-        o[d]=1;
-      }
-    }
-
+    getReflectionDates().forEach(function(date){o[date]=1;});
     return o;
   }
 
@@ -736,43 +812,45 @@ body{
       Object.keys(reflections()).length;
   }
 
-  function saveDay(d){
-
-    var a=document.getElementById("d"+d+"a").value.trim();
-    var b=document.getElementById("d"+d+"b").value.trim();
-    var c=document.getElementById("d"+d+"c").value.trim();
+  function saveReflection(date){
+    var a=document.getElementById("ra_"+date).value.trim();
+    var b=document.getElementById("rb_"+date).value.trim();
+    var c=document.getElementById("rc_"+date).value.trim();
+    var msg=document.getElementById("msg_"+date);
 
     if(!a||!b||!c){
-      document.getElementById("day"+d+"msg").textContent=
-        "Complete all 3 prompts.";
+      msg.textContent="Complete all 3 prompts.";
       return;
     }
 
-    localStorage.setItem(
-      "lahi_reflection_"+d,
-      JSON.stringify({a:a,b:b,c:c})
-    );
+    var key=reflectionKey(date);
+    var isNew=!localStorage.getItem(key);
+    localStorage.setItem(key,JSON.stringify({date:date,a:a,b:b,c:c,savedAt:new Date().toISOString()}));
 
-    var first=
-      localStorage.getItem("lahi_reflection_reward_"+d)!=="1";
+    if(isNew){LAHi.addXP(10,"lahi_reflection_date_reward_"+date);}
 
-    if(first){
-      LAHi.addXP(10,"lahi_reflection_reward_"+d);
-    }
-
-    document.getElementById("day"+d+"msg").textContent=
-      "✓ Saved"+(first?" • +10 XP":"");
-
+    msg.textContent="✓ Saved"+(isNew?" • +10 XP":" • updated");
+    msg.className="msg";
     updateCount();
 
-    LAHi.sync("daily_reflection_save",{day:d});
+    var status=document.getElementById("sync_"+date);
+    if(status) status.textContent="Saving to Google Sheets…";
 
-    if(Object.keys(reflections()).length>=7){
-      checkConsistency();
-    }
+    LAHi.sync("daily_reflection_save",{
+      date:date,
+      reflectionDate:date,
+      reflection:{a:a,b:b,c:c}
+    }).then(function(ok){
+      if(status){
+        status.textContent=ok?"✓ Data synced to Google Sheets":"⚠ Saved on this device. Google Sheets sync is not configured yet.";
+        status.className="sync-status "+(ok?"ok":"warn");
+      }
+    });
+
+    checkConsistency();
   }
 
-  window.saveDay=saveDay;
+  window.saveReflection=saveReflection;
 
   function checkConsistency(){
 
@@ -888,20 +966,7 @@ body{
 
   function load(){
 
-    for(var d=1;d<=15;d++){
-
-      try{
-        var o=JSON.parse(
-          localStorage.getItem("lahi_reflection_"+d)||"null"
-        );
-
-        if(o){
-          document.getElementById("d"+d+"a").value=o.a||"";
-          document.getElementById("d"+d+"b").value=o.b||"";
-          document.getElementById("d"+d+"c").value=o.c||"";
-        }
-      }catch(e){}
-    }
+    renderAll();
 
     try{
 
