@@ -8,5 +8,5 @@ window.LAHiConfig = {
     Example:
     GOOGLE_SHEETS_URL: "https://script.google.com/macros/s/XXXXXXXX/exec"
   */
-  GOOGLE_SHEETS_URL: "https://script.google.com/macros/s/AKfycbwfMubDIOaVNO3zUFR9lJRxlF-vx8oUKRwBQkUEACm8p_ZjhkhjaBorx18DIk29HDWHuA/exec"
+  GOOGLE_SHEETS_URL: "https://script.google.com/macros/s/AKfycbxKTGUuCUFacIOmd4zYGI86XG8ERd0r56n3tnM-kqpbFh635iiHYFX-UrhPCdIYo9cMmw/exec"
 };
