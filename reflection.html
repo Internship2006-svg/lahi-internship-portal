@@ -377,6 +377,31 @@ body{
 .sync-status.ok{color:#27804a}
 .sync-status.warn{color:#a66a00}
 .empty-reflections{padding:22px;text-align:center;background:#faf9ff;border-radius:14px;color:#777}
+
+.reset-modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(30,25,70,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:100000;
+  padding:20px;
+}
+.reset-modal-overlay.show{display:flex}
+.reset-modal{
+  width:min(430px,100%);
+  background:#fff;
+  border-radius:18px;
+  padding:24px;
+  box-shadow:0 18px 60px rgba(0,0,0,.2);
+}
+.reset-modal h3{margin:0 0 10px;color:#4d42bb;font-size:21px}
+.reset-modal p{margin:0 0 20px;color:#555;line-height:1.5}
+.reset-modal-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.reset-modal-actions button{border:0;border-radius:10px;padding:11px 18px;font-weight:900;cursor:pointer}
+.reset-modal-cancel{background:#f1f1f5;color:#444}
+.reset-modal-ok{background:#b64040;color:#fff}
 @media(max-width:700px){.reflection-toolbar{align-items:stretch}.plus-button{width:100%}}
 </style>
 </head>
@@ -961,23 +986,72 @@ body{
     renderReflection(date,false);
   }
 
-  function resetReflection(date){
-    if(!confirm("Reset this reflection? Your saved version will remain unchanged until you save again.")) return;
+  var resetTargetDate=null;
+
+  function openResetModal(date){
+    resetTargetDate=date;
+    var modal=document.getElementById("resetModal");
+    var text=document.getElementById("resetModalText");
+    if(text){
+      text.textContent="Do you want to reset the answers for " + formatDate(date) + "? You can choose OK to reset or Cancel to keep your answers.";
+    }
+    if(modal){
+      modal.classList.add("show");
+      modal.setAttribute("aria-hidden","false");
+    }
+  }
+
+  function closeResetModal(){
+    var modal=document.getElementById("resetModal");
+    if(modal){
+      modal.classList.remove("show");
+      modal.setAttribute("aria-hidden","true");
+    }
+    resetTargetDate=null;
+  }
+
+  function performReset(date){
     var existing=getReflection(date);
-    var a=document.getElementById("ra_"+date),b=document.getElementById("rb_"+date),c=document.getElementById("rc_"+date);
+    var a=document.getElementById("ra_"+date),
+        b=document.getElementById("rb_"+date),
+        c=document.getElementById("rc_"+date);
+
     if(existing && existing.status==="saved"){
-      a.value=existing.a||"";
-      b.value=existing.b||"";
-      c.value=existing.c||"";
+      if(a) a.value=existing.a||"";
+      if(b) b.value=existing.b||"";
+      if(c) c.value=existing.c||"";
       var msg=document.getElementById("msg_"+date);
       if(msg) msg.textContent="↺ Restored the last saved version. Edit it and save again.";
     }else{
-      a.value="";b.value="";c.value="";
-      var key=reflectionKey(date);
-      localStorage.removeItem(key);
+      if(a) a.value="";
+      if(b) b.value="";
+      if(c) c.value="";
+      localStorage.removeItem(reflectionKey(date));
       renderReflection(date,false);
     }
   }
+
+  function resetReflection(date){
+    openResetModal(date);
+  }
+
+  document.getElementById("resetCancelBtn").addEventListener("click",function(){
+    closeResetModal();
+  });
+
+  document.getElementById("resetOkBtn").addEventListener("click",function(){
+    var date=resetTargetDate;
+    closeResetModal();
+    if(date) performReset(date);
+  });
+
+  document.getElementById("resetModal").addEventListener("click",function(e){
+    if(e.target===this) closeResetModal();
+  });
+
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Escape") closeResetModal();
+  });
 
   window.saveReflection=saveReflection;
   window.saveReflectionDraft=saveReflectionDraft;
@@ -1238,6 +1312,19 @@ body{
 
 })();
 </script>
+
+
+
+<div id="resetModal" class="reset-modal-overlay" aria-hidden="true">
+  <div class="reset-modal" role="dialog" aria-modal="true" aria-labelledby="resetModalTitle">
+    <h3 id="resetModalTitle">↺ Reset reflection?</h3>
+    <p id="resetModalText">Are you sure you want to reset this reflection?</p>
+    <div class="reset-modal-actions">
+      <button type="button" class="reset-modal-cancel" id="resetCancelBtn">Cancel</button>
+      <button type="button" class="reset-modal-ok" id="resetOkBtn">OK, Reset</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
