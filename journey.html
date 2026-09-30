@@ -1221,6 +1221,8 @@
     var gs2=document.getElementById("missionGoals");
     if(gs2)gs2.classList.add("completed");
     ready("goalsStatus","✓ MISSION 3 COMPLETED");
+    var goalsBtn=document.getElementById("goalsButton");
+    if(goalsBtn) goalsBtn.textContent="VIEW / EDIT GOALS →";
     var fin=document.getElementById("missionCelebrate");
     if(fin)fin.classList.remove("locked");
     ready("finalStatus","✨ MISSION 4 UNLOCKED");
