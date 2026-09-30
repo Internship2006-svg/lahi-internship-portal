@@ -358,6 +358,17 @@ body{
 .date-field input{width:100%;box-sizing:border-box;padding:12px;border:1px solid #d7d9e3;border-radius:10px;font:inherit;background:#fff}
 .plus-button{border:0;background:#5b4bdf;color:#fff;border-radius:12px;padding:12px 18px;font-weight:900;font-size:15px;cursor:pointer}
 .plus-button:hover{background:#4b3bc4}
+.reflection-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.draft-button,.reset-button,.edit-button,.cancel-button{border:1px solid #d8d9e5;background:#fff;color:#4d42bb;border-radius:10px;padding:10px 14px;font-weight:900;cursor:pointer}
+.draft-button{background:#fff7e8;color:#9a6410;border-color:#f0d49c}
+.reset-button{color:#9b3c3c;background:#fff7f7;border-color:#f0caca}
+.edit-button{background:#f4f1ff}
+.cancel-button{color:#666}
+.reflection-card.readonly textarea{background:#f7f7fa;color:#555;cursor:default}
+.draft-label{display:inline-block;padding:4px 8px;border-radius:999px;background:#fff4d9;color:#98651a;font-size:11px;font-weight:900;margin-left:6px}
+.saved-label{display:inline-block;padding:4px 8px;border-radius:999px;background:#eaf8ef;color:#277a45;font-size:11px;font-weight:900;margin-left:6px}
+.reflection-card.editing{border-color:#b9b0f5;box-shadow:0 0 0 2px #f0edff}
+
 .reflection-card{border:1px solid #e5e3ef;border-radius:18px;padding:18px;margin:14px 0;background:#fff}
 .reflection-card.saved{border-color:#bfe7cc;background:#fbfffc}
 .reflection-card h3{margin:0 0 14px;color:#4d42bb}
@@ -395,8 +406,8 @@ body{
   <div class="notice">
     <b>📌 How this mission works</b>
     <p class="small">
-      Save a reflection after each internship day. You can choose from 15 day cards here;
-      if your internship lasts longer, continue using your own sheets as the toolkit suggests.
+      Save a reflection after each internship day. Choose the actual date from the calendar.
+      Use <b>Save as Draft</b> if you are not finished and <b>Edit</b> whenever you want to correct a saved reflection.
       Later, complete the Learn Better challenges and your final self-assessment.
     </p>
     <div><b id="reflectionCount">0</b> reflections saved</div>
@@ -701,51 +712,106 @@ body{
 
   function renderEmpty(){
     if(!getReflectionDates().length){
-      days.innerHTML='<div class="empty-reflections">📅 No daily reflections yet.<br>Choose a date above and click <b>＋ ADD DAILY REFLECTION</b>.</div>';
+      days.innerHTML='<div class="empty-reflections">📅 No daily reflections yet.<br>Choose a date above and click <b>＋ ADD REFLECTION</b>.</div>';
     }
   }
 
-  function renderReflection(date){
-    var key=reflectionKey(date);
+  function formatDate(date){
+    return date.split("-").reverse().join("-");
+  }
+
+  function getReflection(date){
     var existing=null;
-    try{existing=JSON.parse(localStorage.getItem(key)||"null");}catch(e){}
+    try{existing=JSON.parse(localStorage.getItem(reflectionKey(date))||"null");}catch(e){}
+    return existing;
+  }
+
+  function escapeHtml(value){
+    return String(value||"")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
+  function renderReflection(date,editing){
+    var existing=getReflection(date);
     var card=document.getElementById("reflection_"+date);
     if(!card){
       card=document.createElement("div");
-      card.className="reflection-card";
       card.id="reflection_"+date;
       days.appendChild(card);
     }
+
+    var isSaved=!!(existing&&existing.status==="saved");
+    var isDraft=!!(existing&&existing.status==="draft");
+    var editMode=editing || !isSaved;
+
+    card.className="reflection-card"+(isSaved&&!editMode?" readonly":"")+(editMode?" editing":"");
+
+    var disabled=editMode?"":" readonly";
+    var statusLabel=isSaved
+      ? '<span class="saved-label">✓ SAVED</span>'
+      : (isDraft?'<span class="draft-label">DRAFT</span>':'');
+
+    var buttons='';
+    if(editMode){
+      buttons=
+        '<button class="save js-save-reflection" type="button" data-date="'+date+'">💾 SAVE REFLECTION — '+formatDate(date)+'</button>'+ 
+        '<button class="draft-button js-save-draft" type="button" data-date="'+date+'">📝 SAVE AS DRAFT — '+formatDate(date)+'</button>'+ 
+        '<button class="reset-button js-reset-reflection" type="button" data-date="'+date+'">↺ RESET</button>'+ 
+        (isSaved?'<button class="cancel-button js-cancel-edit" type="button" data-date="'+date+'">CANCEL EDIT</button>':'');
+    }else{
+      buttons=
+        '<button class="edit-button js-edit-reflection" type="button" data-date="'+date+'">✏️ EDIT</button>'+ 
+        '<button class="reset-button js-reset-reflection" type="button" data-date="'+date+'">↺ RESET</button>';
+    }
+
     card.innerHTML=
-      '<h3>📅 '+date.split("-").reverse().join("-")+' <span class="reflection-date">(actual internship date)</span></h3>'+
+      '<h3>📅 '+formatDate(date)+' <span class="reflection-date">(actual internship date)</span>'+statusLabel+'</h3>'+ 
       '<div class="grid2">'+
-        '<div class="field"><label>What happened today?</label><textarea id="ra_'+date+'">'+((existing&&existing.a)||"")+'</textarea></div>'+
-        '<div class="field"><label>What did I learn?</label><textarea id="rb_'+date+'">'+((existing&&existing.b)||"")+'</textarea></div>'+
-      '</div>'+
-      '<div class="field" style="margin-top:10px"><label>Why is this important?</label><textarea id="rc_'+date+'">'+((existing&&existing.c)||"")+'</textarea></div>'+
-      '<div class="row" style="margin-top:10px">'+
-        '<button class="save" type="button" onclick="saveReflection(\''+date+'\')">💾 SAVE '+date.split("-").reverse().join("-")+'</button>'+
-        '<span id="msg_'+date+'" class="msg"></span>'+
-      '</div>'+
+        '<div class="field"><label>What happened today?</label><textarea id="ra_'+date+'"'+disabled+'>'+escapeHtml((existing&&existing.a)||"")+'</textarea></div>'+ 
+        '<div class="field"><label>What did I learn?</label><textarea id="rb_'+date+'"'+disabled+'>'+escapeHtml((existing&&existing.b)||"")+'</textarea></div>'+ 
+      '</div>'+ 
+      '<div class="field" style="margin-top:10px"><label>Why is this important?</label><textarea id="rc_'+date+'"'+disabled+'>'+escapeHtml((existing&&existing.c)||"")+'</textarea></div>'+ 
+      '<div class="reflection-actions" style="margin-top:10px">'+buttons+'<span id="msg_'+date+'" class="msg"></span></div>'+ 
       '<div id="sync_'+date+'" class="sync-status"></div>';
+
+    card.querySelectorAll(".js-save-reflection").forEach(function(btn){btn.addEventListener("click",function(){saveReflection(btn.dataset.date);});});
+    card.querySelectorAll(".js-save-draft").forEach(function(btn){btn.addEventListener("click",function(){saveReflectionDraft(btn.dataset.date);});});
+    card.querySelectorAll(".js-reset-reflection").forEach(function(btn){btn.addEventListener("click",function(){resetReflection(btn.dataset.date);});});
+    card.querySelectorAll(".js-edit-reflection").forEach(function(btn){btn.addEventListener("click",function(){editReflection(btn.dataset.date);});});
+    card.querySelectorAll(".js-cancel-edit").forEach(function(btn){btn.addEventListener("click",function(){cancelReflectionEdit(btn.dataset.date);});});
   }
 
   function renderAll(){
     days.innerHTML="";
     var dates=getReflectionDates();
     if(!dates.length){renderEmpty();return;}
-    dates.forEach(renderReflection);
+    dates.forEach(function(date){renderReflection(date,false);});
   }
+
+  function updateDateButton(){
+    if(!dateInput.value){
+      addReflectionBtn.textContent="＋ ADD DAILY REFLECTION";
+      return;
+    }
+    addReflectionBtn.textContent="＋ ADD REFLECTION — "+formatDate(dateInput.value);
+  }
+
+  dateInput.addEventListener("change",updateDateButton);
+  updateDateButton();
 
   addReflectionBtn.addEventListener("click",function(){
     var date=dateInput.value;
     if(!date){alert("Please select the internship date first.");return;}
     if(!document.getElementById("reflection_"+date)){
-      renderReflection(date);
-      document.getElementById("reflection_"+date).scrollIntoView({behavior:"smooth",block:"center"});
+      renderReflection(date,false);
     }else{
-      document.getElementById("reflection_"+date).scrollIntoView({behavior:"smooth",block:"center"});
+      renderReflection(date,false);
     }
+    document.getElementById("reflection_"+date).scrollIntoView({behavior:"smooth",block:"center"});
   });
 
   var skills=[
@@ -803,7 +869,10 @@ body{
 
   function reflections(){
     var o={};
-    getReflectionDates().forEach(function(date){o[date]=1;});
+    getReflectionDates().forEach(function(date){
+      var item=getReflection(date);
+      if(item && item.status==="saved") o[date]=1;
+    });
     return o;
   }
 
@@ -812,25 +881,56 @@ body{
       Object.keys(reflections()).length;
   }
 
+  function readReflectionFields(date){
+    return {
+      a:document.getElementById("ra_"+date).value.trim(),
+      b:document.getElementById("rb_"+date).value.trim(),
+      c:document.getElementById("rc_"+date).value.trim()
+    };
+  }
+
+  function saveReflectionDraft(date){
+    var v=readReflectionFields(date);
+    localStorage.setItem(reflectionKey(date),JSON.stringify({
+      date:date,a:v.a,b:v.b,c:v.c,status:"draft",savedAt:new Date().toISOString()
+    }));
+
+    var msg=document.getElementById("msg_"+date);
+    if(msg){msg.textContent="✓ Draft saved";msg.className="msg";}
+    renderReflection(date,false);
+    var status=document.getElementById("sync_"+date);
+    if(status) status.textContent="Draft saved on this device.";
+    LAHi.sync("daily_reflection_draft",{
+      date:date,
+      reflectionDate:date,
+      reflection:{a:v.a,b:v.b,c:v.c},
+      status:"draft"
+    });
+    updateCount();
+  }
+
   function saveReflection(date){
-    var a=document.getElementById("ra_"+date).value.trim();
-    var b=document.getElementById("rb_"+date).value.trim();
-    var c=document.getElementById("rc_"+date).value.trim();
+    var v=readReflectionFields(date);
     var msg=document.getElementById("msg_"+date);
 
-    if(!a||!b||!c){
-      msg.textContent="Complete all 3 prompts.";
+    if(!v.a||!v.b||!v.c){
+      if(msg) msg.textContent="Complete all 3 prompts before saving the reflection. You can use Save as Draft if you are not finished yet.";
       return;
     }
 
     var key=reflectionKey(date);
-    var isNew=!localStorage.getItem(key);
-    localStorage.setItem(key,JSON.stringify({date:date,a:a,b:b,c:c,savedAt:new Date().toISOString()}));
+    var previous=getReflection(date);
+    var isNew=!previous || previous.status!=="saved";
+
+    localStorage.setItem(key,JSON.stringify({
+      date:date,a:v.a,b:v.b,c:v.c,status:"saved",savedAt:new Date().toISOString()
+    }));
 
     if(isNew){LAHi.addXP(10,"lahi_reflection_date_reward_"+date);}
 
-    msg.textContent="✓ Saved"+(isNew?" • +10 XP":" • updated");
-    msg.className="msg";
+    renderReflection(date,false);
+    var savedMsg=document.getElementById("msg_"+date);
+    if(savedMsg) savedMsg.textContent="✓ Saved"+(isNew?" • +10 XP":" • updated");
     updateCount();
 
     var status=document.getElementById("sync_"+date);
@@ -839,10 +939,11 @@ body{
     LAHi.sync("daily_reflection_save",{
       date:date,
       reflectionDate:date,
-      reflection:{a:a,b:b,c:c}
+      reflection:{a:v.a,b:v.b,c:v.c},
+      status:"saved"
     }).then(function(ok){
       if(status){
-        status.textContent=ok?"✓ Data synced to Google Sheets":"⚠ Saved on this device. Google Sheets sync is not configured yet.";
+        status.textContent=ok?"✓ Data sync requested":"⚠ Saved on this device. Google Sheets sync is not configured yet.";
         status.className="sync-status "+(ok?"ok":"warn");
       }
     });
@@ -850,7 +951,39 @@ body{
     checkConsistency();
   }
 
+  function editReflection(date){
+    renderReflection(date,true);
+    var card=document.getElementById("reflection_"+date);
+    if(card) card.scrollIntoView({behavior:"smooth",block:"center"});
+  }
+
+  function cancelReflectionEdit(date){
+    renderReflection(date,false);
+  }
+
+  function resetReflection(date){
+    if(!confirm("Reset this reflection? Your saved version will remain unchanged until you save again.")) return;
+    var existing=getReflection(date);
+    var a=document.getElementById("ra_"+date),b=document.getElementById("rb_"+date),c=document.getElementById("rc_"+date);
+    if(existing && existing.status==="saved"){
+      a.value=existing.a||"";
+      b.value=existing.b||"";
+      c.value=existing.c||"";
+      var msg=document.getElementById("msg_"+date);
+      if(msg) msg.textContent="↺ Restored the last saved version. Edit it and save again.";
+    }else{
+      a.value="";b.value="";c.value="";
+      var key=reflectionKey(date);
+      localStorage.removeItem(key);
+      renderReflection(date,false);
+    }
+  }
+
   window.saveReflection=saveReflection;
+  window.saveReflectionDraft=saveReflectionDraft;
+  window.editReflection=editReflection;
+  window.cancelReflectionEdit=cancelReflectionEdit;
+  window.resetReflection=resetReflection;
 
   function checkConsistency(){
 
