@@ -110,9 +110,31 @@ body{
   font:inherit;
 }
 
-.field textarea{
+ .field textarea{
   min-height:80px;
   resize:vertical;
+}
+
+.safety-issue{
+  margin-top:14px;
+  padding:16px;
+  border:1px solid #e7c8b5;
+  border-left:5px solid #a64b13;
+  border-radius:14px;
+  background:#fff8f3;
+}
+.safety-issue label{
+  color:#71340e;
+}
+.safety-issue textarea{
+  min-height:95px;
+  margin-top:6px;
+}
+.safety-help{
+  margin:0 0 8px;
+  color:#6f625b;
+  font-size:13px;
+  line-height:1.5;
 }
 
 .row{
@@ -589,6 +611,14 @@ body{
           <option>Yes</option>
           <option>No</option>
         </select>
+      </div>
+
+      <div class="safety-issue" id="safetyIssueBox" style="display:none;grid-column:1/-1;">
+        <div class="field">
+          <label>⚠️ Please tell us about the issue or problem</label>
+          <p class="safety-help">Share what happened, what made you uncomfortable or unsafe, or what support you need. Please do not include passwords or other sensitive personal information.</p>
+          <textarea id="safeIssue" placeholder="What happened? What support would you like?"></textarea>
+        </div>
       </div>
     </div>
   </section>
@@ -1197,6 +1227,18 @@ body{
     maybeChampion();
   }
 
+  function toggleSafetyIssue(){
+    var safe=document.getElementById("safe");
+    var box=document.getElementById("safetyIssueBox");
+    var issue=document.getElementById("safeIssue");
+    var show=safe && safe.value==="No";
+    if(box) box.style.display=show?"block":"none";
+    if(issue) issue.required=show;
+  }
+
+  document.getElementById("safe").addEventListener("change",toggleSafetyIssue);
+  toggleSafetyIssue();
+
   document.getElementById("finish").onclick=function(){
 
     var count=Object.keys(reflections()).length;
@@ -1211,13 +1253,15 @@ body{
       "future",
       "strength",
       "improve",
-      "employerName"
+      "employerName",
+      "safeIssue"
     ];
 
     var missing=finalIds.some(function(id){
-      return !String(
-        document.getElementById(id).value||""
-      ).trim();
+      var el=document.getElementById(id);
+      if(!el) return false;
+      if(id==="safeIssue" && document.getElementById("safe").value!=="No") return false;
+      return !String(el.value||"").trim();
     });
 
     var skillsOK=skills.every(function(s,i){
