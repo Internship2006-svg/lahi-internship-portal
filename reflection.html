@@ -1224,6 +1224,7 @@ body{
     }catch(e){}
 
     updateCount();
+    toggleSafetyIssue();
     maybeChampion();
   }
 
@@ -1236,7 +1237,8 @@ body{
     if(issue) issue.required=show;
   }
 
-  document.getElementById("safe").addEventListener("change",toggleSafetyIssue);
+  var safeSelect=document.getElementById("safe");
+  if(safeSelect){ safeSelect.addEventListener("change",toggleSafetyIssue); }
   toggleSafetyIssue();
 
   document.getElementById("finish").onclick=function(){
@@ -1291,6 +1293,13 @@ body{
     if(!badgesOK){
       document.getElementById("finalMsg").textContent=
         "Unlock all four Achievement Board badges: Summarising, Word Map, Drawing and Consistency.";
+      return;
+    }
+
+    if(document.getElementById("safe").value==="No" && !String(document.getElementById("safeIssue").value||"").trim()){
+      document.getElementById("finalMsg").textContent=
+        "Please tell us briefly about the safety issue or problem before completing Mission 4.";
+      document.getElementById("safeIssue").focus();
       return;
     }
 
