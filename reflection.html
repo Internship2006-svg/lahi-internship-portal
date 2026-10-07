@@ -1447,5 +1447,56 @@ body{
   </div>
 </div>
 
+<script>
+/* HARD FALLBACK: conditional Mission 4 fields */
+(function(){
+  function setupConditionalFields(){
+    var safe=document.getElementById('safe');
+    var safeBox=document.getElementById('safetyIssueBox');
+    var safeIssue=document.getElementById('safeIssue');
+    var trade=document.getElementById('sameTrade');
+    var tradeBox=document.getElementById('sameTradeReasonBox');
+    var tradeReason=document.getElementById('sameTradeReason');
+    var future=document.getElementById('future');
+
+    function updateSafe(){
+      if(!safe || !safeBox) return;
+      var no=safe.value==='No';
+      safeBox.style.display=no ? 'block' : 'none';
+      safeBox.hidden=!no;
+      if(safeIssue) safeIssue.required=no;
+    }
+
+    function updateTrade(){
+      if(!trade || !tradeBox) return;
+      var no=trade.value==='No';
+      tradeBox.style.display=no ? 'block' : 'none';
+      tradeBox.hidden=!no;
+      if(tradeReason) tradeReason.required=no;
+      if(future) future.required=no;
+    }
+
+    if(safe){
+      safe.removeEventListener('change',updateSafe);
+      safe.addEventListener('change',updateSafe);
+      updateSafe();
+    }
+
+    if(trade){
+      trade.removeEventListener('change',updateTrade);
+      trade.addEventListener('change',updateTrade);
+      updateTrade();
+    }
+  }
+
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',setupConditionalFields);
+  }else{
+    setupConditionalFields();
+  }
+  window.addEventListener('load',setupConditionalFields);
+})();
+</script>
+
 </body>
 </html>
