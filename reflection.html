@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>Mission 4 – Learn Better & Celebrate</title>
 <link rel="stylesheet" href="style.css">
 
@@ -448,6 +451,55 @@ body{
 .reset-modal-ok{background:#b64040;color:#fff}
 @media(max-width:700px){.reflection-toolbar{align-items:stretch}.plus-button{width:100%}}
 </style>
+<script>
+/* Mission 4 conditional fields - standalone controller.
+   This is intentionally defined in <head> so the inline onchange handlers work
+   even if another script on the page fails. */
+window.LAHIConditionalFields = (function(){
+  function setBox(box, show){
+    if(!box) return;
+    box.hidden = !show;
+    box.style.setProperty('display', show ? 'block' : 'none', 'important');
+  }
+
+  function update(){
+    var safe = document.getElementById('safe');
+    var safeBox = document.getElementById('safetyIssueBox');
+    var safeIssue = document.getElementById('safeIssue');
+    var sameTrade = document.getElementById('sameTrade');
+    var tradeBox = document.getElementById('sameTradeReasonBox');
+    var tradeReason = document.getElementById('sameTradeReason');
+    var future = document.getElementById('future');
+
+    var unsafe = !!safe && safe.value === 'No';
+    var differentTrade = !!sameTrade && sameTrade.value === 'No';
+
+    setBox(safeBox, unsafe);
+    setBox(tradeBox, differentTrade);
+
+    if(safeIssue) safeIssue.required = unsafe;
+    if(tradeReason) tradeReason.required = differentTrade;
+    if(future) future.required = differentTrade;
+  }
+
+  function init(){
+    update();
+    var safe=document.getElementById('safe');
+    var sameTrade=document.getElementById('sameTrade');
+    if(safe) safe.onchange=update;
+    if(sameTrade) sameTrade.onchange=update;
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  }else{
+    init();
+  }
+  window.addEventListener('load', init);
+
+  return {update:update, init:init};
+})();
+</script>
 </head>
 
 <body>
@@ -628,14 +680,14 @@ body{
 
       <div class="field">
         <label>Did you feel safe?</label>
-        <select id="safe">
+        <select id="safe" onchange="window.LAHIConditionalFields.update()">
           <option value="">Select</option>
           <option>Yes</option>
           <option>No</option>
         </select>
       </div>
 
-      <div class="safety-issue" id="safetyIssueBox" style="display:none;grid-column:1/-1;">
+      <div class="safety-issue" id="safetyIssueBox" hidden style="display:none;grid-column:1/-1;">
         <div class="field">
           <label>⚠️ Please tell us about the issue or problem</label>
           <p class="safety-help">Share what happened, what made you uncomfortable or unsafe, or what support you need. Please do not include passwords or other sensitive personal information.</p>
@@ -680,14 +732,14 @@ body{
     <div class="grid2" style="margin-top:14px">
       <div class="field">
         <label>Would you like to continue studying or working in the same trade?</label>
-        <select id="sameTrade">
+        <select id="sameTrade" onchange="window.LAHIConditionalFields.update()">
           <option value="">Select</option>
           <option>Yes</option>
           <option>No</option>
         </select>
       </div>
 
-      <div class="pathway-reason" id="sameTradeReasonBox" style="display:none;grid-column:1/-1;">
+      <div class="pathway-reason" id="sameTradeReasonBox" hidden style="display:none;grid-column:1/-1;">
         <div class="field">
           <label>💭 Why would you like to explore something different?</label>
           <p class="pathway-help">Tell us the main reason — for example, your interests changed, you discovered a different career, you did not enjoy the work, or you want to try something new.</p>
@@ -700,10 +752,6 @@ body{
         </div>
       </div>
 
-      <div class="field" id="futureYesBox" style="display:none;grid-column:1/-1;">
-        <label>Trade/career you would like to continue with</label>
-        <input id="futureYes" placeholder="Optional">
-      </div>
     </div>
   </section>
 
@@ -1265,31 +1313,14 @@ body{
   }
 
   function toggleSafetyIssue(){
-    var safe=document.getElementById("safe");
-    var box=document.getElementById("safetyIssueBox");
-    var issue=document.getElementById("safeIssue");
-    var show=safe && safe.value==="No";
-    if(box) box.style.display=show?"block":"none";
-    if(issue) issue.required=show;
+    if(window.LAHIConditionalFields) window.LAHIConditionalFields.update();
   }
 
   function toggleSameTradeReason(){
-    var select=document.getElementById("sameTrade");
-    var box=document.getElementById("sameTradeReasonBox");
-    var reason=document.getElementById("sameTradeReason");
-    var future=document.getElementById("future");
-    var show=select && select.value==="No";
-    if(box) box.style.display=show?"block":"none";
-    if(reason) reason.required=show;
-    if(future) future.required=show;
+    if(window.LAHIConditionalFields) window.LAHIConditionalFields.update();
   }
 
-  var safeSelect=document.getElementById("safe");
-  if(safeSelect){ safeSelect.addEventListener("change",toggleSafetyIssue); }
   toggleSafetyIssue();
-
-  var sameTradeSelect=document.getElementById("sameTrade");
-  if(sameTradeSelect){ sameTradeSelect.addEventListener("change",toggleSameTradeReason); }
   toggleSameTradeReason();
 
   document.getElementById("finish").onclick=function(){
@@ -1447,56 +1478,6 @@ body{
   </div>
 </div>
 
-<script>
-/* HARD FALLBACK: conditional Mission 4 fields */
-(function(){
-  function setupConditionalFields(){
-    var safe=document.getElementById('safe');
-    var safeBox=document.getElementById('safetyIssueBox');
-    var safeIssue=document.getElementById('safeIssue');
-    var trade=document.getElementById('sameTrade');
-    var tradeBox=document.getElementById('sameTradeReasonBox');
-    var tradeReason=document.getElementById('sameTradeReason');
-    var future=document.getElementById('future');
-
-    function updateSafe(){
-      if(!safe || !safeBox) return;
-      var no=safe.value==='No';
-      safeBox.style.display=no ? 'block' : 'none';
-      safeBox.hidden=!no;
-      if(safeIssue) safeIssue.required=no;
-    }
-
-    function updateTrade(){
-      if(!trade || !tradeBox) return;
-      var no=trade.value==='No';
-      tradeBox.style.display=no ? 'block' : 'none';
-      tradeBox.hidden=!no;
-      if(tradeReason) tradeReason.required=no;
-      if(future) future.required=no;
-    }
-
-    if(safe){
-      safe.removeEventListener('change',updateSafe);
-      safe.addEventListener('change',updateSafe);
-      updateSafe();
-    }
-
-    if(trade){
-      trade.removeEventListener('change',updateTrade);
-      trade.addEventListener('change',updateTrade);
-      updateTrade();
-    }
-  }
-
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',setupConditionalFields);
-  }else{
-    setupConditionalFields();
-  }
-  window.addEventListener('load',setupConditionalFields);
-})();
-</script>
 
 </body>
 </html>
